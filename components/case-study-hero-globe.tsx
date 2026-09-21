@@ -106,12 +106,12 @@ export function CaseStudyHeroGlobe() {
     renderer.setClearColor(0x000000, 0)
     container.appendChild(renderer.domElement)
 
-    // Master Globe Pivot Group positioned on the RIGHT side (fully inside viewport without cutoff)
+    // Master Globe Pivot Group positioned on the RIGHT side for desktop, centered for mobile
     const masterGroup = new THREE.Group()
     if (window.innerWidth > 1024) {
       masterGroup.position.set(1.18, 0.05, 0)
     } else {
-      masterGroup.position.set(0, -0.2, 0)
+      masterGroup.position.set(0, 0, 0)
     }
     scene.add(masterGroup)
 
@@ -456,7 +456,7 @@ export function CaseStudyHeroGlobe() {
       if (window.innerWidth > 1024) {
         masterGroup.position.set(1.18, 0.05, 0)
       } else {
-        masterGroup.position.set(0, -0.2, 0)
+        masterGroup.position.set(0, 0, 0)
       }
       camera.updateProjectionMatrix()
       renderer.setSize(width, height)
@@ -481,15 +481,6 @@ export function CaseStudyHeroGlobe() {
       ref={mountRef}
       className="case-hero-globe-canvas-wrap"
       aria-hidden="true"
-      style={{
-        position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 1,
-        pointerEvents: 'none',
-        overflow: 'hidden',
-      }}
     />
   )
 }
