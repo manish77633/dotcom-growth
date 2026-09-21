@@ -51,5 +51,6 @@ export function ServiceDetailPage({ service }: { service: Service }) {
       <CTA />
       <Footer />
     </main>
+    </>
   )
 }

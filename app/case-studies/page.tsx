@@ -230,5 +230,6 @@ export default function CaseStudiesPage() {
 
       <Footer />
     </main>
+    </>
   )
 }
