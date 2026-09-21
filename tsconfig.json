@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@chatplug/react": ["./components/chat-plug"]
     }
   },
   "include": [

@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import Script from 'next/script'
+import { ChatPlug } from '@chatplug/react'
 import './globals.css'
 import './routes.css'
 import './case-studies.css'
@@ -45,13 +45,12 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         {children}
-        <Script
-          src="https://chatplug-v1.onrender.com/embed/556e3043-681a-45c1-9f57-5774929f459b/widget.js"
-          strategy="afterInteractive"
-        />
         {process.env.NODE_ENV === 'production' && <Analytics />}
+        <ChatPlug id="57c70efe-0848-4948-ae57-68e41641e6cb" />
       </body>
     </html>
   )
 }
+
+
 
