@@ -1801,16 +1801,33 @@ footer b { display: block; font-size: 9px; letter-spacing: 1.5px; color: #fff; m
     z-index: 999;
   }
   .shared-nav.mobile-open { display: flex; }
+  /* All nav items — uniform left-aligned, full-width */
   .shared-nav > a,
+  .nav-dropdown {
+    width: 100%;
+    display: block;
+  }
+  .shared-nav > a {
+    text-align: left;
+    padding: 15px 16px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #111 !important;
+    border-bottom: 1px solid #f0f0f0;
+    display: block;
+  }
   .nav-dropdown > button {
     text-align: left;
-    padding: 14px 8px;
+    padding: 15px 16px;
     font-size: 15px;
-    border-bottom: 1px solid #f2f2f2;
-    color: #111;
+    font-weight: 500;
+    color: #111 !important;
     width: 100%;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-  .shared-nav > a:last-of-type { border-bottom: none; }
   /* Mega menus inline on mobile */
   .mega-menu {
     position: static;
@@ -1818,14 +1835,14 @@ footer b { display: block; font-size: 9px; letter-spacing: 1.5px; color: #fff; m
     grid-template-columns: 1fr 1fr;
     box-shadow: none;
     border: 0;
-    border-top: 1px solid #f2f2f2;
+    border-bottom: 1px solid #f0f0f0;
     border-radius: 0;
-    padding: 6px 0 12px;
+    padding: 4px 12px 12px;
     animation: none;
-    margin-left: 8px;
-    background: transparent;
+    background: #fafafa;
+    width: 100%;
   }
-  .mega-menu a { font-size: 13px; padding: 10px 12px; color: #555; }
+  .mega-menu a { font-size: 13px; padding: 10px 12px; color: #444; text-align: left; }
   .hero { min-height: 700px; padding: 40px 24px; }
   .hero-copy { width: 100%; }
   .steps { display: none; }
