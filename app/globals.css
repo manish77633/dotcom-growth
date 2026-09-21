@@ -1974,10 +1974,27 @@ footer b { display: block; font-size: 9px; letter-spacing: 1.5px; color: #fff; m
   .cta { margin: 40px 10px; padding: 36px 18px 0; }
   .cta h2 { font-size: clamp(24px, 6.5vw, 34px) !important; letter-spacing: -1px !important; line-height: 1.15 !important; margin: 12px 0 14px !important; }
   .contact-row { display: grid; gap: 16px; }
-  footer { grid-template-columns: 1fr 1fr; padding: 48px 24px; gap: 32px; }
-  footer > .logo, footer > p { grid-column: 1/-1; }
-  .footer-inner { grid-template-columns: 1fr 1fr; padding: 40px 18px; gap: 28px; }
-  .footer-brand { grid-column: 1 / -1; }
+  footer {
+    display: block !important;
+    padding: 40px 18px !important;
+  }
+  .footer-inner {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    padding: 0 !important;
+    gap: 28px 20px !important;
+  }
+  .footer-brand {
+    grid-column: 1 / -1 !important;
+    margin-bottom: 4px !important;
+  }
+  .footer-inner > div {
+    margin-bottom: 0 !important;
+  }
+  .copyright {
+    grid-column: 1 / -1 !important;
+    margin-top: 8px !important;
+  }
   .columns { columns: 1; }
 }
 
@@ -2001,11 +2018,30 @@ footer b { display: block; font-size: 9px; letter-spacing: 1.5px; color: #fff; m
   .cta { margin: 32px 0; padding: 28px 14px 0; border-radius: 24px; }
   .calendar { padding: 16px; }
   .days { gap: 4px; }
-  footer { display: block; padding: 36px 16px; }
-  .footer-inner { display: block; padding: 36px 16px; }
-  .footer-inner > div, footer > div { margin-bottom: 24px; }
-  .copyright { margin-top: 8px; display: block; }
-  .footer-legal { margin-top: 12px; flex-wrap: wrap; gap: 10px; }
+  footer { display: block !important; padding: 36px 16px !important; }
+  .footer-inner {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    padding: 0 !important;
+    gap: 24px 16px !important;
+  }
+  .footer-brand {
+    grid-column: 1 / -1 !important;
+    margin-bottom: 4px !important;
+  }
+  .footer-inner > div {
+    margin-bottom: 0 !important;
+  }
+  .copyright {
+    grid-column: 1 / -1 !important;
+    margin-top: 8px !important;
+    display: block !important;
+  }
+  .footer-legal {
+    margin-top: 10px !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
   .orange-button { padding: 12px 20px; font-size: 12px; }
 }
 

@@ -983,12 +983,105 @@
     letter-spacing: -1px !important;
     line-height: 1.15 !important;
   }
-  .case-cta-content p {
+  /* ─── Technology Detail Enables Section Responsive ─── */
+  .tech-enables-section {
+    padding: 50px 0 !important;
+  }
+  .tech-enables-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 28px !important;
+    width: 100% !important;
+  }
+  .tech-enables-copy {
+    width: 100% !important;
+  }
+  .tech-enables-copy h2 {
+    font-size: clamp(24px, 6.8vw, 34px) !important;
+    letter-spacing: -1px !important;
+    line-height: 1.15 !important;
+    margin-bottom: 12px !important;
+  }
+  .tech-enables-copy p {
     font-size: 14px !important;
+    line-height: 1.55 !important;
   }
-  .case-cta-scene-wrap {
-    height: 180px !important;
+  .tech-enables-points {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
   }
+  .tech-enable-point-item {
+    padding: 20px 0 !important;
+    width: 100% !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+  .tech-enable-point-item b {
+    font-size: 18px !important;
+  }
+  .tech-enable-point-item h3 {
+    font-size: 18px !important;
+    margin: 8px 0 6px !important;
+  }
+  .tech-enable-point-item p {
+    font-size: 13.5px !important;
+    line-height: 1.5 !important;
+  }
+}
+
+/* ─── Technology Detail Enables Section Desktop ───────────── */
+.tech-enables-section {
+  background: #08090d;
+  color: #ffffff;
+  padding: 100px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.tech-enables-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.tech-enables-copy h2 {
+  font-size: clamp(36px, 4.5vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+  font-weight: 500;
+  color: #ffffff;
+}
+.tech-enables-copy p {
+  color: #a0acbe;
+  font-size: 17px;
+  line-height: 1.65;
+}
+.tech-enables-points {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.tech-enable-point-item {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 28px 0;
+}
+.tech-enable-point-item b {
+  color: var(--orange);
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 400;
+}
+.tech-enable-point-item h3 {
+  font-size: 22px;
+  margin: 14px 0 10px;
+  font-weight: 500;
+  color: #ffffff;
+}
+.tech-enable-point-item p {
+  color: #8c97a8;
+  line-height: 1.6;
+  font-size: 15px;
 }
 
 /* ─── Technology Directory Grid (Dark Minimalist Theme) ───── */

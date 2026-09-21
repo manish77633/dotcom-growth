@@ -116,9 +116,9 @@
   .detail-section > p{font-size:15px}
   .detail-grid{grid-template-columns:1fr;gap:12px;margin-top:28px}
   .detail-grid article{min-height:0}
-  .inner-cta{margin:36px 18px;padding:36px 18px}
-  .inner-footer{grid-template-columns:1fr;padding:36px 18px;gap:24px}
-  .inner-footer small{grid-column:auto}
+  .inner-footer{display:grid;grid-template-columns:1fr 1fr;padding:36px 18px;gap:24px 18px}
+  .inner-footer > div:first-child{grid-column:1/-1}
+  .inner-footer small{grid-column:1/-1}
   /* ── Routes: Homepage extension ── */
   .service-extension-dark,.service-extension-solutions,.service-extension-cta{padding:56px 18px}
   .service-extension-heading{grid-template-columns:1fr;gap:8px}

@@ -67,7 +67,7 @@ function CaseStudyRow({
     >
       {/* Large Real Image / Visual Canvas */}
       <div className="case-editorial-media">
-        <div className="case-editorial-img-wrap">
+        <Link href={`/case-studies/${study.slug}`} className="case-editorial-img-wrap" style={{ display: 'block', textDecoration: 'none' }}>
           <img src={img} alt={study.title} loading="lazy" />
           <div className="case-editorial-img-overlay" />
           <span className="case-editorial-category-badge">{study.category}</span>
@@ -75,13 +75,15 @@ function CaseStudyRow({
             <strong>{study.metric}</strong>
             <small>{study.metricLabel}</small>
           </div>
-        </div>
+        </Link>
       </div>
 
       {/* Case Study Details (Animates together as a coherent block) */}
       <div className="case-editorial-content">
         <span className="case-editorial-index">0{idx + 1} / CASE STUDY</span>
-        <h3>{study.title}</h3>
+        <Link href={`/case-studies/${study.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <h3>{study.title}</h3>
+        </Link>
         <p className="case-editorial-desc">{study.description}</p>
 
         <div className="case-editorial-meta-grid">
