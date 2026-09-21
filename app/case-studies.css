@@ -71,17 +71,16 @@
   .case-studies-hero-immersive {
     padding: 140px 0 110px !important;
     min-height: 760px !important;
+    position: relative !important;
   }
   .case-hero-foreground {
-    position: relative !important;
-    z-index: 2 !important;
+    position: static !important;
     width: 100% !important;
     pointer-events: auto !important;
   }
   .case-hero-content-left {
-    position: relative !important;
+    position: static !important;
     max-width: 580px !important;
-    z-index: 3 !important;
   }
   .case-hero-globe-canvas-wrap {
     position: absolute !important;
@@ -90,7 +89,7 @@
     bottom: 0 !important;
     left: 48% !important;
     width: 52% !important;
-    max-width: none !important;
+    max-width: 52% !important;
     height: 100% !important;
     z-index: 1 !important;
     pointer-events: none !important;
