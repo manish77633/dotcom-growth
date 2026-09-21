@@ -75,6 +75,28 @@ function isLandmass(lat: number, lng: number): boolean {
   return false
 }
 
+// Pre-create particle texture singleton for instant zero-latency dot rendering
+let cachedParticleTexture: THREE.CanvasTexture | null = null
+function getParticleTexture(): THREE.CanvasTexture {
+  if (cachedParticleTexture) return cachedParticleTexture
+  const canvas = document.createElement('canvas')
+  canvas.width = 32
+  canvas.height = 32
+  const ctx = canvas.getContext('2d')!
+  const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16)
+  grad.addColorStop(0, 'rgba(255,255,255,1)')
+  grad.addColorStop(0.35, 'rgba(255,255,255,0.85)')
+  grad.addColorStop(1, 'rgba(255,255,255,0)')
+  ctx.fillStyle = grad
+  ctx.beginPath()
+  ctx.arc(16, 16, 16, 0, Math.PI * 2)
+  ctx.fill()
+  cachedParticleTexture = new THREE.CanvasTexture(canvas)
+  cachedParticleTexture.generateMipmaps = false
+  cachedParticleTexture.minFilter = THREE.LinearFilter
+  return cachedParticleTexture
+}
+
 export function CaseStudyHeroGlobe() {
   const mountRef = useRef<HTMLDivElement>(null)
 
@@ -83,18 +105,15 @@ export function CaseStudyHeroGlobe() {
     if (!container) return
 
     const isMobile = window.innerWidth <= 900
-    const heroParent = container.closest('.case-studies-hero-immersive')
-    let width = isMobile ? (container.clientWidth || 290) : (heroParent?.clientWidth || window.innerWidth)
-    let height = isMobile ? (container.clientHeight || 210) : (heroParent?.clientHeight || 740)
+    let width = container.clientWidth || (isMobile ? 290 : Math.round(window.innerWidth * 0.52))
+    let height = container.clientHeight || (isMobile ? 210 : 740)
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     // ─── Scene & Camera ───────────────────────────────────────
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000)
-
-    // Position camera
-    camera.position.set(0, 0, 4.4)
+    camera.position.set(0, 0, 4.0)
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -103,29 +122,25 @@ export function CaseStudyHeroGlobe() {
       precision: 'mediump',
     })
     renderer.setSize(width, height)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))
     renderer.setClearColor(0x000000, 0)
     container.appendChild(renderer.domElement)
 
-    // Master Globe Pivot Group: positioned on the RIGHT side for desktop (x = 1.25), centered for mobile
+    // Master Globe Pivot Group centered within its container
     const masterGroup = new THREE.Group()
-    if (!isMobile) {
-      masterGroup.position.set(1.25, 0.05, 0)
-    } else {
-      masterGroup.position.set(0, 0, 0)
-    }
+    masterGroup.position.set(0, 0, 0)
     scene.add(masterGroup)
 
     const globeGroup = new THREE.Group()
     masterGroup.add(globeGroup)
 
-    // Globe Radius (scaled for complete visibility inside viewport)
-    const GLOBE_RADIUS = 1.28
+    // Globe Radius
+    const GLOBE_RADIUS = 1.2
 
-    // ─── 1. Continuous 360° Dense Point Cloud (Optimized for 60-120fps) ──
-    const pointCount = isMobile ? 6000 : 14000
-    const positions: number[] = []
-    const colors: number[] = []
+    // ─── 1. Instant 360° Dense Point Cloud ──
+    const pointCount = isMobile ? 5000 : 10000
+    const positions = new Float32Array(pointCount * 3)
+    const colors = new Float32Array(pointCount * 3)
 
     const colorOrange = new THREE.Color(0xff5a1f)
     const colorWhite = new THREE.Color(0xffffff)
@@ -147,49 +162,45 @@ export function CaseStudyHeroGlobe() {
 
       const isLand = isLandmass(lat, lng)
 
-      positions.push(x * GLOBE_RADIUS, y * GLOBE_RADIUS, z * GLOBE_RADIUS)
+      positions[i * 3] = x * GLOBE_RADIUS
+      positions[i * 3 + 1] = y * GLOBE_RADIUS
+      positions[i * 3 + 2] = z * GLOBE_RADIUS
 
       if (isLand) {
-        // Prominent glowing white & orange continents
         if (lat >= 12 && lat <= 34 && lng >= 68 && lng <= 90) {
-          // India / HQ focus
-          colors.push(colorOrange.r, colorOrange.g, colorOrange.b)
+          colors[i * 3] = colorOrange.r
+          colors[i * 3 + 1] = colorOrange.g
+          colors[i * 3 + 2] = colorOrange.b
         } else if (Math.random() > 0.82) {
-          colors.push(colorOrange.r * 0.95, colorOrange.g * 0.75, colorOrange.b * 0.5)
+          colors[i * 3] = colorOrange.r * 0.95
+          colors[i * 3 + 1] = colorOrange.g * 0.75
+          colors[i * 3 + 2] = colorOrange.b * 0.5
         } else {
-          colors.push(colorWhite.r, colorWhite.g, colorWhite.b)
+          colors[i * 3] = colorWhite.r
+          colors[i * 3 + 1] = colorWhite.g
+          colors[i * 3 + 2] = colorWhite.b
         }
       } else {
-        // Visible luminous ocean grid (ensures globe is ALWAYS full of dots 360°)
         if (Math.random() > 0.6) {
-          colors.push(colorSoftWhite.r * 0.75, colorSoftWhite.g * 0.75, colorSoftWhite.b * 0.8)
+          colors[i * 3] = colorSoftWhite.r * 0.75
+          colors[i * 3 + 1] = colorSoftWhite.g * 0.75
+          colors[i * 3 + 2] = colorSoftWhite.b * 0.8
         } else {
-          colors.push(colorOcean.r * 0.85, colorOcean.g * 0.85, colorOcean.b * 0.9)
+          colors[i * 3] = colorOcean.r * 0.85
+          colors[i * 3 + 1] = colorOcean.g * 0.85
+          colors[i * 3 + 2] = colorOcean.b * 0.9
         }
       }
     }
 
     const pointGeometry = new THREE.BufferGeometry()
-    pointGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
-    pointGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
+    pointGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    pointGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
 
-    // Crisp circular particle texture
-    const canvas = document.createElement('canvas')
-    canvas.width = 32
-    canvas.height = 32
-    const ctx = canvas.getContext('2d')!
-    const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16)
-    grad.addColorStop(0, 'rgba(255,255,255,1)')
-    grad.addColorStop(0.35, 'rgba(255,255,255,0.85)')
-    grad.addColorStop(1, 'rgba(255,255,255,0)')
-    ctx.fillStyle = grad
-    ctx.beginPath()
-    ctx.arc(16, 16, 16, 0, Math.PI * 2)
-    ctx.fill()
-    const pointTexture = new THREE.CanvasTexture(canvas)
+    const pointTexture = getParticleTexture()
 
     const pointMaterial = new THREE.PointsMaterial({
-      size: isMobile ? 0.028 : 0.024,
+      size: isMobile ? 0.032 : 0.026,
       vertexColors: true,
       map: pointTexture,
       transparent: true,
@@ -201,8 +212,8 @@ export function CaseStudyHeroGlobe() {
     const particleGlobe = new THREE.Points(pointGeometry, pointMaterial)
     globeGroup.add(particleGlobe)
 
-    // ─── 2. Inner Dark Core (Prevents seeing through back) ───
-    const innerCoreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.985, 48, 48)
+    // ─── 2. Inner Dark Core ───
+    const innerCoreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.985, 36, 36)
     const innerCoreMat = new THREE.MeshBasicMaterial({
       color: 0x030407,
       transparent: true,
@@ -212,7 +223,7 @@ export function CaseStudyHeroGlobe() {
     globeGroup.add(innerCore)
 
     // ─── 3. Outer Glowing Atmosphere Aura ───────────────────────
-    const atmosphereGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 1.05, 32, 32)
+    const atmosphereGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 1.05, 28, 28)
     const atmosphereMat = new THREE.ShaderMaterial({
       vertexShader: `
         varying vec3 vNormal;
@@ -246,7 +257,7 @@ export function CaseStudyHeroGlobe() {
       markerPositions.push(pos)
 
       // Solid Glowing Pin
-      const pinGeo = new THREE.SphereGeometry(0.024, 16, 16)
+      const pinGeo = new THREE.SphereGeometry(0.024, 12, 12)
       const pinMat = new THREE.MeshBasicMaterial({
         color: hub.isHQ ? 0xff5a1f : 0xffffff,
       })
@@ -255,7 +266,7 @@ export function CaseStudyHeroGlobe() {
       markerGroup.add(pin)
 
       // Outer Ring
-      const ringGeo = new THREE.RingGeometry(0.028, 0.044, 24)
+      const ringGeo = new THREE.RingGeometry(0.028, 0.044, 20)
       const ringMat = new THREE.MeshBasicMaterial({
         color: 0xff5a1f,
         side: THREE.DoubleSide,
@@ -292,7 +303,7 @@ export function CaseStudyHeroGlobe() {
       mid.normalize().multiplyScalar(altitude)
 
       const curve = new THREE.QuadraticBezierCurve3(start, mid, end)
-      const points = curve.getPoints(45)
+      const points = curve.getPoints(36)
       const arcGeo = new THREE.BufferGeometry().setFromPoints(points)
 
       const arcMat = new THREE.LineBasicMaterial({
@@ -305,7 +316,7 @@ export function CaseStudyHeroGlobe() {
       arcGroup.add(line)
 
       // Traveling Light Photon
-      const photonGeo = new THREE.SphereGeometry(0.018, 12, 12)
+      const photonGeo = new THREE.SphereGeometry(0.018, 10, 10)
       const photonMat = new THREE.MeshBasicMaterial({
         color: 0xffffff,
         transparent: true,
@@ -323,16 +334,14 @@ export function CaseStudyHeroGlobe() {
     })
 
     // ─── 6. Ambient 3D Particle Sparkles Layer ────────────────
-    const sparkleCount = isMobile ? 90 : 260
+    const sparkleCount = isMobile ? 60 : 160
     const sparklePositions = new Float32Array(sparkleCount * 3)
     const sparkleColors = new Float32Array(sparkleCount * 3)
-    const sparkleScales = new Float32Array(sparkleCount)
 
     for (let i = 0; i < sparkleCount; i++) {
-      // Scatter in a wide cylinder / sphere around hero
-      const r = 2.2 + Math.random() * 4.5
+      const r = 1.8 + Math.random() * 3.5
       const theta = Math.random() * Math.PI * 2
-      const y = (Math.random() - 0.5) * 4.5
+      const y = (Math.random() - 0.5) * 3.5
 
       sparklePositions[i * 3] = Math.cos(theta) * r
       sparklePositions[i * 3 + 1] = y
@@ -347,8 +356,6 @@ export function CaseStudyHeroGlobe() {
         sparkleColors[i * 3 + 1] = 0.85 + Math.random() * 0.15
         sparkleColors[i * 3 + 2] = 1.0
       }
-
-      sparkleScales[i] = Math.random()
     }
 
     const sparkleGeo = new THREE.BufferGeometry()
@@ -372,7 +379,10 @@ export function CaseStudyHeroGlobe() {
     globeGroup.rotation.y = -1.25
     globeGroup.rotation.x = 0.26
 
-    // ─── 7. Smooth Damped Mouse Parallax ───────────────────────
+    // ─── 7. Immediate Synchronous First Frame Draw (No pop-in delay) ──
+    renderer.render(scene, camera)
+
+    // ─── 8. Smooth Damped Mouse Parallax ───────────────────────
     let targetMouseX = 0
     let targetMouseY = 0
     let currentMouseX = 0
@@ -389,7 +399,7 @@ export function CaseStudyHeroGlobe() {
 
     window.addEventListener('mousemove', onMouseMove, { passive: true })
 
-    // ─── 8. Render Animation Loop (Paused when offscreen) ──────
+    // ─── 9. Render Animation Loop ──────
     let animId = 0
     const clock = new THREE.Clock()
 
@@ -402,23 +412,19 @@ export function CaseStudyHeroGlobe() {
       animId = requestAnimationFrame(animate)
       const t = clock.getElapsedTime()
 
-      // Smooth slow auto-rotation
       if (!prefersReducedMotion) {
         globeGroup.rotation.y += 0.0018
 
-        // Damped Parallax interpolation
         currentMouseX += (targetMouseX - currentMouseX) * 0.04
         currentMouseY += (targetMouseY - currentMouseY) * 0.04
 
-        masterGroup.rotation.y = currentMouseX * 0.28
-        masterGroup.rotation.x = -currentMouseY * 0.18
+        masterGroup.rotation.y = currentMouseX * 0.24
+        masterGroup.rotation.x = -currentMouseY * 0.15
 
-        // Sparkles gentle drift & parallax
-        sparklesMesh.rotation.y = t * 0.02 + currentMouseX * 0.15
-        sparklesMesh.rotation.x = Math.sin(t * 0.1) * 0.05 - currentMouseY * 0.1
+        sparklesMesh.rotation.y = t * 0.02 + currentMouseX * 0.12
+        sparklesMesh.rotation.x = Math.sin(t * 0.1) * 0.04 - currentMouseY * 0.08
       }
 
-      // Traveling Photons along flight arcs
       arcs.forEach((arc) => {
         arc.progress = (arc.progress + arc.speed) % 1
         const pt = arc.curve.getPointAt(arc.progress)
@@ -427,13 +433,11 @@ export function CaseStudyHeroGlobe() {
         arc.photon.scale.set(scale, scale, scale)
       })
 
-      // Atmosphere subtle breathing glow
       atmosphereMesh.scale.setScalar(1.0 + Math.sin(t * 1.4) * 0.008)
 
       renderer.render(scene, camera)
     }
 
-    // IntersectionObserver to halt GPU draw calls when scrolled out of view
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting
@@ -447,20 +451,15 @@ export function CaseStudyHeroGlobe() {
 
     animId = requestAnimationFrame(animate)
 
-    // ─── 9. Resize Handling ───────────────────────────────────
+    // ─── 10. Resize Handling ───────────────────────────────────
     const handleResize = () => {
       if (!container) return
       const isMob = window.innerWidth <= 900
-      const hero = container.closest('.case-studies-hero-immersive')
-      width = isMob ? (container.clientWidth || 290) : (hero?.clientWidth || window.innerWidth)
-      height = isMob ? (container.clientHeight || 210) : (hero?.clientHeight || 740)
+      width = container.clientWidth || (isMob ? 290 : Math.round(window.innerWidth * 0.52))
+      height = container.clientHeight || (isMob ? 210 : 740)
       camera.aspect = width / height
-      camera.position.set(0, 0, 4.4)
-      if (!isMob) {
-        masterGroup.position.set(1.25, 0.05, 0)
-      } else {
-        masterGroup.position.set(0, 0, 0)
-      }
+      camera.position.set(0, 0, 4.0)
+      masterGroup.position.set(0, 0, 0)
       camera.updateProjectionMatrix()
       renderer.setSize(width, height)
     }
