@@ -1843,27 +1843,142 @@ footer b { display: block; font-size: 9px; letter-spacing: 1.5px; color: #fff; m
     width: 100%;
   }
   .mega-menu a { font-size: 13px; padding: 10px 12px; color: #444; text-align: left; }
-  .hero { min-height: 700px; padding: 40px 24px; }
+  .hero { min-height: auto; padding: 40px 20px 48px; }
   .hero-copy { width: 100%; }
   .steps { display: none; }
-  .capability-tiles { grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 48px 0 60px; }
+  .hero h1 { font-size: clamp(28px, 8vw, 42px) !important; letter-spacing: -1.5px !important; line-height: 1.08 !important; margin: 20px 0 16px !important; }
+  .hero p { font-size: 15px !important; margin-bottom: 24px !important; }
+
+  /* ─── Capabilities: 2-Box Grid per row on Mobile ─── */
+  .capabilities-section { padding: 50px 0; }
+  .capabilities { display: flex; flex-direction: column; gap: 28px; width: 100%; }
+  .section-intro { position: static; width: 100%; }
+  .section-intro h2 { font-size: clamp(24px, 6.5vw, 34px) !important; letter-spacing: -1px !important; line-height: 1.15 !important; margin: 14px 0 10px !important; }
+  .section-intro p { font-size: 14px !important; line-height: 1.55 !important; max-width: 100% !important; }
+  .service-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  .service-card {
+    padding: 14px 10px !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+    border-radius: 16px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    min-height: 0 !important;
+  }
+  .service-icon {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 15px !important;
+    border-radius: 10px !important;
+    flex-shrink: 0 !important;
+  }
+  .service-card b {
+    font-size: 12.5px !important;
+    line-height: 1.25 !important;
+    word-break: break-word !important;
+    white-space: normal !important;
+  }
+  .service-card small {
+    font-size: 10.5px !important;
+    line-height: 1.3 !important;
+    margin-top: 2px !important;
+    word-break: break-word !important;
+    white-space: normal !important;
+  }
+
+  /* ─── Certified & Accordion Big Cards: Full Width ─── */
+  .certified { padding: 60px 0; }
+  .technology-header-block { margin-bottom: 28px; }
+  .tech-eyebrow-text { font-size: 11px !important; letter-spacing: 2px !important; }
+  .tech-main-title { font-size: clamp(24px, 6.5vw, 34px) !important; letter-spacing: -1px !important; line-height: 1.15 !important; margin: 8px 0 10px !important; }
+  .tech-description-text { font-size: 14px !important; line-height: 1.5 !important; }
+  .capability-accordion { width: 100% !important; }
+  .capability-card { width: 100% !important; }
+
+  /* ─── Strategic Advantages & Big Cards: Full Width ─── */
+  .advantages { padding: 60px 0; }
+  .advantages h2 { font-size: clamp(24px, 6.5vw, 34px) !important; letter-spacing: -1px !important; line-height: 1.15 !important; margin: 12px 0 20px !important; }
+  .advantage-layout { grid-template-columns: 1fr !important; gap: 24px !important; width: 100% !important; }
+  .growth-index-container { width: 100% !important; }
+  .growth-index {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 24px 16px !important;
+    min-height: auto !important;
+    border-radius: 20px !important;
+  }
+  .vanity {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 10px 14px !important;
+    font-size: 10px !important;
+  }
+  .index-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 18px 16px !important;
+    border-radius: 18px !important;
+  }
+  .index-card > b { font-size: 17px !important; margin: 4px 0 12px !important; }
+  .index-metrics strong { font-size: 18px !important; }
+  .expertise-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 18px 14px !important;
+    border-radius: 18px !important;
+  }
+  .growth-index > em { font-size: 12px !important; margin-top: 2px !important; }
+
+  /* ─── Case Studies Section Grid ─── */
+  .case-studies-showcase-section { padding: 60px 0 70px !important; }
+  .case-showcase-title-wrap h2 { font-size: clamp(24px, 6.5vw, 34px) !important; letter-spacing: -1px !important; line-height: 1.15 !important; }
+  .case-showcase-lead { font-size: 14px !important; }
+  .case-showcase-grid { grid-template-columns: 1fr !important; gap: 18px !important; width: 100% !important; }
+  .case-showcase-card { width: 100% !important; }
+  .case-card-image-wrap { height: 200px !important; }
+  .case-card-title { font-size: 17px !important; line-height: 1.3 !important; }
+
+  /* ─── Solutions Section Grid ─── */
+  .solutions { padding-top: 60px; }
+  .solutions h2 { font-size: clamp(24px, 6.5vw, 34px) !important; letter-spacing: -1px !important; line-height: 1.15 !important; margin: 12px 0 14px !important; }
+  .solutions .lead { font-size: 14px !important; margin-bottom: 32px !important; }
+  .solution-grid { grid-template-columns: 1fr !important; gap: 14px !important; width: 100% !important; }
+  .solution-grid article,
+  .solution-grid article.wide {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    padding: 22px 18px !important;
+    border-radius: 20px !important;
+  }
+  .solution-grid h3 { font-size: 20px !important; margin: 10px 0 16px !important; }
+  .solution-grid p { font-size: 13.5px !important; margin: 10px 0 !important; }
+
+  /* ─── Stats, Voices, CTA & Footer ─── */
+  .stats-section-wrap { padding: 50px 0; }
+  .stats-section { grid-template-columns: 1fr 1fr; gap: 12px; padding: 0; }
+  .stats-section article { padding: 22px 18px; min-height: auto; }
+  .stats-section strong { font-size: clamp(36px, 8vw, 48px); margin: 12px 0 10px; }
+  .stats-section p { font-size: 13px; }
+  .capability-tiles { grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 36px 0 44px; }
   .tile-featured { grid-column: span 2; }
-  .stats-section { grid-template-columns: 1fr 1fr; gap: 14px; padding: 70px 24px; }
-  .stats-section article { padding: 26px 20px; min-height: auto; }
-  .case-grid { grid-template-columns: 1fr; }
-  .case-heading { display: block; }
-  .solution-grid, .solution-grid article.wide { grid-template-columns: 1fr; grid-column: auto; }
-  .solution-grid article { padding: 28px 22px; }
-  .advantage-layout { grid-template-columns: 1fr; }
-  .cta { margin: 60px 16px; padding: 40px 24px 0; }
+  .certified-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .voices { padding: 60px 0 40px; }
+  .voices h2 { font-size: clamp(24px, 6.5vw, 34px) !important; letter-spacing: -1px !important; line-height: 1.15 !important; margin: 12px 0 20px !important; }
+  .testimonial-row { margin-top: 20px; }
+  .testimonial-row article { flex: 0 0 85vw; padding: 24px; }
+  .cta { margin: 40px 10px; padding: 36px 18px 0; }
+  .cta h2 { font-size: clamp(24px, 6.5vw, 34px) !important; letter-spacing: -1px !important; line-height: 1.15 !important; margin: 12px 0 14px !important; }
+  .contact-row { display: grid; gap: 16px; }
   footer { grid-template-columns: 1fr 1fr; padding: 48px 24px; gap: 32px; }
   footer > .logo, footer > p { grid-column: 1/-1; }
-  .footer-inner { grid-template-columns: 1fr 1fr; padding: 48px 24px; gap: 32px; }
+  .footer-inner { grid-template-columns: 1fr 1fr; padding: 40px 18px; gap: 28px; }
   .footer-brand { grid-column: 1 / -1; }
-  .certified-grid { grid-template-columns: 1fr; }
-  .contact-row { display: grid; gap: 20px; }
   .columns { columns: 1; }
-  .testimonial-row article { flex: 0 0 80vw; }
 }
 
 @media (max-width: 600px) {
@@ -1871,33 +1986,27 @@ footer b { display: block; font-size: 9px; letter-spacing: 1.5px; color: #fff; m
   .site-header { height: 60px; padding: 0 16px; }
   .shared-nav { top: 60px; }
   .logo { font-size: 20px !important; }
-  .hero { min-height: calc(100svh - 60px); padding: 24px 18px 40px; align-items: flex-start; }
-  .hero h1 { font-size: clamp(36px, 10vw, 50px); letter-spacing: -2px; margin: 48px 0 20px; }
-  .hero p { font-size: 16px; margin-bottom: 28px; }
-  .hero-badge-row { flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+  .hero { min-height: auto; padding: 20px 16px 36px; align-items: flex-start; }
+  .hero h1 { font-size: clamp(26px, 8.5vw, 36px) !important; letter-spacing: -1.2px !important; margin: 16px 0 14px !important; }
+  .hero p { font-size: 14px !important; margin-bottom: 20px !important; }
+  .hero-badge-row { flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
   .button-row { flex-direction: column; align-items: stretch; gap: 10px; }
   .button-row a { text-align: center; }
   .capability-tiles { grid-template-columns: 1fr; gap: 10px; }
   .capability-tiles .tile-featured { grid-column: auto; }
-  .stats-section { grid-template-columns: 1fr; padding: 56px 18px; }
-  .certified { padding: 64px 18px; }
+  .stats-section { grid-template-columns: 1fr; gap: 10px; }
   .certified-grid { grid-template-columns: 1fr; }
-  .advantages { padding: 64px 18px; }
-  .advantage-layout { grid-template-columns: 1fr; }
-  .advantage-tab-btn { padding: 16px 18px; }
-  .voices { padding: 64px 0 48px; }
-  .testimonial-row { padding: 0 18px; }
-  .testimonial-row article { flex: 0 0 calc(100vw - 36px); padding: 24px; }
-  .cta { margin: 48px 10px; padding: 32px 18px 0; border-radius: 28px; }
-  .cta h2 { font-size: clamp(28px, 8vw, 38px); }
-  .calendar { padding: 20px; }
+  .advantage-tab-btn { padding: 14px 16px; }
+  .testimonial-row article { flex: 0 0 calc(100vw - 32px); padding: 20px; }
+  .cta { margin: 32px 0; padding: 28px 14px 0; border-radius: 24px; }
+  .calendar { padding: 16px; }
   .days { gap: 4px; }
-  footer { display: block; padding: 40px 18px; }
-  .footer-inner { display: block; padding: 40px 18px; }
-  .footer-inner > div, footer > div { margin-bottom: 28px; }
+  footer { display: block; padding: 36px 16px; }
+  .footer-inner { display: block; padding: 36px 16px; }
+  .footer-inner > div, footer > div { margin-bottom: 24px; }
   .copyright { margin-top: 8px; display: block; }
-  .footer-legal { margin-top: 14px; flex-wrap: wrap; gap: 12px; }
-  .orange-button { padding: 12px 22px; font-size: 12px; }
+  .footer-legal { margin-top: 12px; flex-wrap: wrap; gap: 10px; }
+  .orange-button { padding: 12px 20px; font-size: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

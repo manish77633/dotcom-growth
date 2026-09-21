@@ -127,18 +127,17 @@
   .service-extension-stats{grid-template-columns:1fr;padding:58px 18px}
   .service-extension-stats article{min-height:170px}
   .service-extension-stats strong{font-size:56px;margin:22px 0 12px}
-  .service-extension-solutions h2{font-size:clamp(38px,10vw,56px);margin-bottom:38px}
+  .service-extension-solutions h2{font-size:clamp(26px,7vw,36px);margin-bottom:28px}
   .solution-list{grid-template-columns:1fr}
-  .service-extension-cta h2{font-size:clamp(40px,10vw,56px)}
+  .service-extension-cta h2{font-size:clamp(26px,7vw,36px)}
   /* ── Routes: Technology hero ── */
-  .technology-hero{min-height:auto;display:block;padding:70px 18px 0}
-  .technology-hero-copy h1{font-size:clamp(48px,13vw,70px);letter-spacing:-3px}
-  .technology-hero-copy p{font-size:16px}
+  .technology-hero{min-height:auto;display:block;padding:50px 18px 0}
+  .technology-hero-copy h1{font-size:clamp(28px,8vw,42px);letter-spacing:-1.5px}
+  .technology-hero-copy p{font-size:15px}
   .technology-actions{flex-direction:column}
   .technology-actions a{text-align:center}
-  .technology-visual{margin:48px auto 0;width:100%;max-width:none;border-radius:28px}
-  .technology-build{display:block;padding:74px 18px}
-  .technology-build h2{font-size:clamp(40px,10vw,58px)}
-  .technology-points{margin-top:40px}
+  .technology-visual{margin:36px auto 0;width:100%;max-width:none;border-radius:24px}
+  .technology-build{display:block;padding:56px 18px}
+  .technology-build h2{font-size:clamp(26px,7vw,36px)}
+  .technology-points{margin-top:32px}
 }
-@media(max-width:900px){.service-extension-dark,.service-extension-solutions,.service-extension-cta{padding:72px 18px}.service-extension-heading{grid-template-columns:1fr;gap:8px}.service-extension-heading h2{font-size:clamp(40px,10vw,58px)}.service-extension-dark .service-cards{grid-template-columns:1fr;margin-top:38px}.service-extension-dark .service-cards article{min-height:0}.service-extension-stats{grid-template-columns:1fr;padding:58px 18px}.service-extension-stats article{min-height:170px}.service-extension-stats strong{font-size:56px;margin:22px 0 12px}.service-extension-solutions h2{font-size:clamp(38px,10vw,56px);margin-bottom:38px}.solution-list{grid-template-columns:1fr}.service-extension-cta h2{font-size:clamp(40px,10vw,56px)}}
