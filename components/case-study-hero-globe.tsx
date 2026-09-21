@@ -75,26 +75,24 @@ function isLandmass(lat: number, lng: number): boolean {
   return false
 }
 
-// Pre-create particle texture singleton for instant zero-latency dot rendering
-let cachedParticleTexture: THREE.CanvasTexture | null = null
-function getParticleTexture(): THREE.CanvasTexture {
-  if (cachedParticleTexture) return cachedParticleTexture
+// Generate clean circular glowing particle texture per renderer instance
+function createParticleTexture(): THREE.CanvasTexture {
   const canvas = document.createElement('canvas')
   canvas.width = 32
   canvas.height = 32
   const ctx = canvas.getContext('2d')!
   const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16)
   grad.addColorStop(0, 'rgba(255,255,255,1)')
-  grad.addColorStop(0.35, 'rgba(255,255,255,0.85)')
+  grad.addColorStop(0.35, 'rgba(255,255,255,0.9)')
+  grad.addColorStop(0.8, 'rgba(255,255,255,0.3)')
   grad.addColorStop(1, 'rgba(255,255,255,0)')
   ctx.fillStyle = grad
   ctx.beginPath()
   ctx.arc(16, 16, 16, 0, Math.PI * 2)
   ctx.fill()
-  cachedParticleTexture = new THREE.CanvasTexture(canvas)
-  cachedParticleTexture.generateMipmaps = false
-  cachedParticleTexture.minFilter = THREE.LinearFilter
-  return cachedParticleTexture
+  const tex = new THREE.CanvasTexture(canvas)
+  tex.needsUpdate = true
+  return tex
 }
 
 export function CaseStudyHeroGlobe() {
@@ -137,15 +135,24 @@ export function CaseStudyHeroGlobe() {
     // Globe Radius
     const GLOBE_RADIUS = 1.2
 
-    // ─── 1. Instant 360° Dense Point Cloud ──
-    const pointCount = isMobile ? 5000 : 10000
+    // ─── 1. Inner Dark Core (Add FIRST so dots render on top) ───
+    const innerCoreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.985, 36, 36)
+    const innerCoreMat = new THREE.MeshBasicMaterial({
+      color: 0x030407,
+      transparent: true,
+      opacity: 0.95,
+    })
+    const innerCore = new THREE.Mesh(innerCoreGeo, innerCoreMat)
+    globeGroup.add(innerCore)
+
+    // ─── 2. Instant 360° Dense Bright White & Orange Point Cloud ──
+    const pointCount = isMobile ? 7000 : 14000
     const positions = new Float32Array(pointCount * 3)
     const colors = new Float32Array(pointCount * 3)
 
     const colorOrange = new THREE.Color(0xff5a1f)
     const colorWhite = new THREE.Color(0xffffff)
-    const colorSoftWhite = new THREE.Color(0xd0d8e2)
-    const colorOcean = new THREE.Color(0x6b7c93)
+    const colorSoftWhite = new THREE.Color(0xe0eaff)
 
     const phi = Math.PI * (3 - Math.sqrt(5)) // Golden angle
 
@@ -171,24 +178,25 @@ export function CaseStudyHeroGlobe() {
           colors[i * 3] = colorOrange.r
           colors[i * 3 + 1] = colorOrange.g
           colors[i * 3 + 2] = colorOrange.b
-        } else if (Math.random() > 0.82) {
-          colors[i * 3] = colorOrange.r * 0.95
-          colors[i * 3 + 1] = colorOrange.g * 0.75
-          colors[i * 3 + 2] = colorOrange.b * 0.5
+        } else if (Math.random() > 0.8) {
+          colors[i * 3] = colorOrange.r
+          colors[i * 3 + 1] = colorOrange.g * 0.8
+          colors[i * 3 + 2] = colorOrange.b * 0.4
         } else {
           colors[i * 3] = colorWhite.r
           colors[i * 3 + 1] = colorWhite.g
           colors[i * 3 + 2] = colorWhite.b
         }
       } else {
-        if (Math.random() > 0.6) {
-          colors[i * 3] = colorSoftWhite.r * 0.75
-          colors[i * 3 + 1] = colorSoftWhite.g * 0.75
-          colors[i * 3 + 2] = colorSoftWhite.b * 0.8
+        // Bright luminous dots across the entire 360 sphere (never dark or faded)
+        if (Math.random() > 0.5) {
+          colors[i * 3] = colorWhite.r * 0.95
+          colors[i * 3 + 1] = colorWhite.g * 0.95
+          colors[i * 3 + 2] = colorWhite.b
         } else {
-          colors[i * 3] = colorOcean.r * 0.85
-          colors[i * 3 + 1] = colorOcean.g * 0.85
-          colors[i * 3 + 2] = colorOcean.b * 0.9
+          colors[i * 3] = colorSoftWhite.r * 0.88
+          colors[i * 3 + 1] = colorSoftWhite.g * 0.88
+          colors[i * 3 + 2] = colorSoftWhite.b * 0.92
         }
       }
     }
@@ -197,30 +205,20 @@ export function CaseStudyHeroGlobe() {
     pointGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
     pointGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
 
-    const pointTexture = getParticleTexture()
+    const pointTexture = createParticleTexture()
 
     const pointMaterial = new THREE.PointsMaterial({
-      size: isMobile ? 0.032 : 0.026,
+      size: isMobile ? 0.038 : 0.032,
       vertexColors: true,
       map: pointTexture,
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
-      opacity: 0.95,
+      opacity: 0.98,
     })
 
     const particleGlobe = new THREE.Points(pointGeometry, pointMaterial)
     globeGroup.add(particleGlobe)
-
-    // ─── 2. Inner Dark Core ───
-    const innerCoreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.985, 36, 36)
-    const innerCoreMat = new THREE.MeshBasicMaterial({
-      color: 0x030407,
-      transparent: true,
-      opacity: 0.95,
-    })
-    const innerCore = new THREE.Mesh(innerCoreGeo, innerCoreMat)
-    globeGroup.add(innerCore)
 
     // ─── 3. Outer Glowing Atmosphere Aura ───────────────────────
     const atmosphereGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 1.05, 28, 28)
