@@ -35,6 +35,9 @@
   overflow: hidden;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .case-hero-globe-canvas-wrap {
   position: absolute;
   inset: 0;
