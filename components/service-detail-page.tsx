@@ -19,22 +19,27 @@ export function ServiceDetailPage({ service }: { service: Service }) {
   }, [])
 
   return (
-    <main ref={pageRef} className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
+    <>
       <SiteHeader />
-      <section className="case-studies-hero-immersive" data-reveal>
-        <CaseStudyHeroGlobe />
-        <div className="container case-hero-foreground">
-          <div className="case-hero-content-left">
-            <div className="eyebrow orange">{service.label || 'ENTERPRISE SERVICE'}</div>
-            <h1>{service.title}</h1>
-            <p className="lead-text">{service.description}</p>
-            <div className="case-hero-actions">
-              <Link className="orange-button" href="/#contact">TALK TO AN EXPERT</Link>
-              <Link className="outline-button" href="#service-capabilities" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>EXPLORE CAPABILITY</Link>
+      <main ref={pageRef} className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
+        <section className="case-studies-hero-immersive" data-reveal>
+          <div className="container case-hero-foreground">
+            <div className="case-hero-content-left">
+              <div className="case-hero-eyebrow-wrap">
+                <div className="eyebrow orange">{service.label || 'ENTERPRISE SERVICE'}</div>
+              </div>
+
+              <CaseStudyHeroGlobe />
+
+              <h1>{service.title}</h1>
+              <p className="lead-text">{service.description}</p>
+              <div className="case-hero-actions">
+                <Link className="orange-button" href="/#contact">TALK TO AN EXPERT</Link>
+                <Link className="outline-button" href="#service-capabilities" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>EXPLORE CAPABILITY</Link>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
       <div id="service-capabilities">
         <Capabilities />
       </div>

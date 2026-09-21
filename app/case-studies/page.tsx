@@ -32,35 +32,36 @@ export default function CaseStudiesPage() {
   useCaseStudyReveal()
 
   return (
-    <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
+    <>
       <SiteHeader />
+      <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
+        {/* Hero Section with Full-Bleed 3D WebGL Globe in Background */}
+        <section className="case-studies-hero-immersive">
+          <div className="container case-hero-foreground">
+            <div className="case-hero-content-left">
+              <div className="case-hero-eyebrow-wrap">
+                <div className="eyebrow orange">PROVEN REVENUE IMPACT</div>
+              </div>
 
-      {/* Hero Section with Full-Bleed 3D WebGL Globe in Background (NO CARDS) */}
-      <section className="case-studies-hero-immersive">
-        {/* Real 3D Interactive WebGL Globe in Hero Background */}
-        <CaseStudyHeroGlobe />
+              {/* 3D Interactive WebGL Globe */}
+              <CaseStudyHeroGlobe />
 
-        <div className="container case-hero-foreground">
-          <div className="case-hero-content-left">
-            <div className="eyebrow orange">PROVEN REVENUE IMPACT</div>
-            <h1>
-              Measurable<br />
-              Impact.<br />
-              <em>Delivered</em><br />
-              <strong>At Scale.</strong>
-            </h1>
-            <p className="lead-text">
-              Commercial technology infrastructure and digital growth systems that show up in your <i>revenue</i> — not just reports.
-            </p>
+              <h1>
+                Measurable Impact.<br />
+                <em>Delivered</em> <strong>At Scale.</strong>
+              </h1>
+              <p className="lead-text">
+                Commercial technology infrastructure and digital growth systems that show up in your <i>revenue</i> — not just reports.
+              </p>
 
-            <div className="case-hero-actions">
-              <a className="orange-button" href="#case-studies-list">
-                EXPLORE PORTFOLIO ↓
-              </a>
-              <a className="outline-button" href="#benchmarks" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>
-                ROI BENCHMARKS
-              </a>
-            </div>
+              <div className="case-hero-actions">
+                <a className="orange-button" href="#case-studies-list">
+                  EXPLORE PORTFOLIO ↓
+                </a>
+                <a className="outline-button" href="#benchmarks" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>
+                  ROI BENCHMARKS
+                </a>
+              </div>
 
             {/* Seamless Inline Metrics (No card backgrounds) */}
             <div className="case-hero-inline-stats">

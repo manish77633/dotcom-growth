@@ -6,34 +6,36 @@ import { Capabilities, Stats, CertifiedOperations, StrategicAdvantages, Solution
 
 export default function ServicesPage() {
   return (
-    <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
+    <>
       <SiteHeader />
+      <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
+        {/* Immersive 3D WebGL Globe Hero Section */}
+        <section className="case-studies-hero-immersive">
+          <div className="container case-hero-foreground">
+            <div className="case-hero-content-left">
+              <div className="case-hero-eyebrow-wrap">
+                <div className="eyebrow orange">COMMERCIAL CAPABILITIES</div>
+              </div>
 
-      {/* Immersive 3D WebGL Globe Hero Section */}
-      <section className="case-studies-hero-immersive">
-        <CaseStudyHeroGlobe />
+              {/* 3D Interactive WebGL Globe */}
+              <CaseStudyHeroGlobe />
 
-        <div className="container case-hero-foreground">
-          <div className="case-hero-content-left">
-            <div className="eyebrow orange">COMMERCIAL CAPABILITIES</div>
-            <h1>
-              Capabilities<br />
-              Engineered for<br />
-              <em>Compounding</em><br />
-              <strong>Growth.</strong>
-            </h1>
-            <p className="lead-text">
-              Specialist engineering and growth teams connecting commercial strategy, enterprise technology, and measurable revenue across global markets.
-            </p>
+              <h1>
+                Capabilities Engineered for<br />
+                <em>Compounding</em> <strong>Growth.</strong>
+              </h1>
+              <p className="lead-text">
+                Specialist engineering and growth teams connecting commercial strategy, enterprise technology, and measurable revenue across global markets.
+              </p>
 
-            <div className="case-hero-actions">
-              <Link className="orange-button" href="#capabilities-section">
-                EXPLORE SERVICES ↓
-              </Link>
-              <Link className="outline-button" href="/#contact" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>
-                TALK TO AN EXPERT
-              </Link>
-            </div>
+              <div className="case-hero-actions">
+                <Link className="orange-button" href="#capabilities-section">
+                  EXPLORE SERVICES ↓
+                </Link>
+                <Link className="outline-button" href="/#contact" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>
+                  TALK TO AN EXPERT
+                </Link>
+              </div>
 
             {/* Seamless Inline Metrics */}
             <div className="case-hero-metrics-bar">

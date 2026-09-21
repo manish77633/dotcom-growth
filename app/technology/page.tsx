@@ -8,33 +8,36 @@ import { technologies } from '@/lib/site-data'
 
 export default function TechnologyPage() {
   return (
-    <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
+    <>
       <SiteHeader />
+      <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
+        {/* Immersive 3D WebGL Globe Hero Section */}
+        <section className="case-studies-hero-immersive">
+          <div className="container case-hero-foreground">
+            <div className="case-hero-content-left">
+              <div className="case-hero-eyebrow-wrap">
+                <div className="eyebrow orange">ENTERPRISE TECHNOLOGY STACK</div>
+              </div>
 
-      {/* Immersive 3D WebGL Globe Hero Section (Matching Case Studies) */}
-      <section className="case-studies-hero-immersive">
-        <CaseStudyHeroGlobe />
+              {/* 3D Interactive WebGL Globe */}
+              <CaseStudyHeroGlobe />
 
-        <div className="container case-hero-foreground">
-          <div className="case-hero-content-left">
-            <div className="eyebrow orange">ENTERPRISE TECHNOLOGY STACK</div>
-            <h1>
-              The Technology<br />
-              Behind <em>Meaningful</em><br />
-              <strong>Growth.</strong>
-            </h1>
-            <p className="lead-text">
-              Certified delivery capability, hardened cloud systems, and custom software architectures that make commercial strategy operational.
-            </p>
+              <h1>
+                The Technology Behind<br />
+                <em>Meaningful</em> <strong>Growth.</strong>
+              </h1>
+              <p className="lead-text">
+                Certified delivery capability, hardened cloud systems, and custom software architectures that make commercial strategy operational.
+              </p>
 
-            <div className="case-hero-actions">
-              <a className="orange-button" href="#tech-directory">
-                EXPLORE TECH STACKS ↓
-              </a>
-              <Link className="outline-button" href="/#contact" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>
-                TALK TO AN EXPERT
-              </Link>
-            </div>
+              <div className="case-hero-actions">
+                <a className="orange-button" href="#tech-directory">
+                  EXPLORE TECH STACKS ↓
+                </a>
+                <Link className="outline-button" href="/#contact" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>
+                  TALK TO AN EXPERT
+                </Link>
+              </div>
 
             {/* Seamless Inline Metrics */}
             <div className="case-hero-metrics-bar">
