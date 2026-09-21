@@ -30,17 +30,18 @@
   z-index: 1000;
 }
 
-/* Desktop only: show nav inline */
+/* Desktop only (≥901px) */
 @media (min-width: 901px) {
-  .shared-nav { display: flex; align-items: center; gap: 36px; }
+  .shared-nav { display: flex !important; align-items: center; gap: 36px; }
   .shared-nav > a, .shared-nav button { font: inherit; color: #404040; background: none; border: 0; cursor: pointer; }
+  .mobile-menu-toggle { display: none !important; }
 }
 
-/* Mobile only: hide nav by default, show toggle */
+/* Mobile only (≤900px) */
 @media (max-width: 900px) {
-  .mobile-menu-toggle { display: block; }
-  .shared-nav { display: none; }
-  .shared-nav.mobile-open { display: flex; }
+  .mobile-menu-toggle { display: block !important; }
+  .shared-nav { display: none !important; }
+  .shared-nav.mobile-open { display: flex !important; flex-direction: column; }
 }
 
 .nav-dropdown { position: relative; }
@@ -49,7 +50,6 @@
 .mega-menu a { padding: 12px; border-radius: 10px; font-size: 13px; white-space: nowrap; }
 .mega-menu a:hover, .mega-menu a:focus-visible { background: #fff2eb; color: var(--orange); }
 @keyframes menu-in { from { opacity: 0; transform: translate(-50%,-8px); } to { opacity: 1; transform: translate(-50%,0); } }
-.mobile-menu-toggle { display: none; }
 
 /* ─── 80% Content Width Hero Styling ─────────────────────── */
 .hero-80-container {
