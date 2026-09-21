@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { services, technologies } from '@/lib/site-data'
 
 function Logo() {
@@ -30,12 +30,38 @@ export function SiteHeader() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false)
+    setOpen(null)
+    document.body.style.overflow = ''
+  }, [])
+
   useEffect(() => {
-    if (!open) return
-    const handler = () => setOpen(null)
-    window.addEventListener('click', handler)
-    return () => window.removeEventListener('click', handler)
-  }, [open])
+    if (!menuOpen) {
+      document.body.style.overflow = ''
+      return
+    }
+    // Close on outside click
+    const handleClick = (e: MouseEvent) => {
+      const header = document.querySelector('.site-header')
+      if (header && !header.contains(e.target as Node)) {
+        closeMenu()
+      }
+    }
+    // Close on ESC key
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeMenu()
+    }
+    document.addEventListener('click', handleClick)
+    document.addEventListener('keydown', handleKey)
+    // Lock body scroll while menu is open
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('click', handleClick)
+      document.removeEventListener('keydown', handleKey)
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen, closeMenu])
 
   return (
     <header className={`site-header site-header-shared${scrolled ? ' scrolled' : ''}`}>
@@ -53,7 +79,7 @@ export function SiteHeader() {
         </button>
 
         <nav className={`shared-nav ${menuOpen ? 'mobile-open' : ''}`}>
-          <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link href="/" onClick={closeMenu}>Home</Link>
 
           <div className="nav-dropdown" onClick={(e) => e.stopPropagation()}>
             <button
@@ -70,7 +96,7 @@ export function SiteHeader() {
                   <Link
                     key={service.slug}
                     href={`/services/${service.slug}`}
-                    onClick={() => { setOpen(null); setMenuOpen(false) }}
+                    onClick={closeMenu}
                   >
                     {service.title}
                   </Link>
@@ -79,7 +105,7 @@ export function SiteHeader() {
             )}
           </div>
 
-          <Link href="/case-studies" onClick={() => setMenuOpen(false)}>Case Studies</Link>
+          <Link href="/case-studies" onClick={closeMenu}>Case Studies</Link>
 
           <div className="nav-dropdown" onClick={(e) => e.stopPropagation()}>
             <button
@@ -96,7 +122,7 @@ export function SiteHeader() {
                   <Link
                     key={technology.slug}
                     href={`/technology/${technology.slug}`}
-                    onClick={() => { setOpen(null); setMenuOpen(false) }}
+                    onClick={closeMenu}
                   >
                     {technology.title}
                   </Link>

@@ -1723,16 +1723,19 @@ footer b { display: block; font-size: 9px; letter-spacing: 1.5px; color: #fff; m
 .mobile-menu-toggle {
   display: none;
   background: none;
-  border: 1px solid rgba(0,0,0,0.15);
+  border: 1px solid rgba(0,0,0,0.14);
   border-radius: 10px;
   padding: 8px 14px;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  color: #111;
+  flex-shrink: 0;
 }
-.mobile-menu-toggle:hover { background: rgba(0,0,0,0.05); }
+.mobile-menu-toggle:hover { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.25); }
+.mobile-menu-toggle[aria-expanded="true"] { background: #111; color: #fff; border-color: #111; }
 
 /* ─── Section Labels / Eyebrow pill for dark sections ───── */
 .dark-section .eyebrow.orange {
@@ -1774,32 +1777,87 @@ footer b { display: block; font-size: 9px; letter-spacing: 1.5px; color: #fff; m
 
 @media (max-width: 900px) {
   .site-header { padding: 0 20px; height: 68px; }
-  nav { display: none; }
-  .site-header .outline-button { padding: 10px 16px; font-size: 11px; }
+  /* Hide CTA button and desktop outline button on mobile */
+  .site-header .outline-button,
+  .site-header .orange-button { display: none; }
+  /* Show hamburger */
   .mobile-menu-toggle { display: block; }
+  /* Mobile nav panel: hidden by default, toggled open with JS */
+  .shared-nav {
+    display: none;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 2px solid rgba(0,0,0,0.06);
+    padding: 8px 20px 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+    z-index: 999;
+  }
+  .shared-nav.mobile-open { display: flex; }
+  .shared-nav > a,
+  .nav-dropdown > button {
+    text-align: left;
+    padding: 14px 8px;
+    font-size: 15px;
+    border-bottom: 1px solid #f2f2f2;
+    color: #111;
+    width: 100%;
+  }
+  .shared-nav > a:last-of-type { border-bottom: none; }
+  /* Mega menus inline on mobile */
+  .mega-menu {
+    position: static;
+    transform: none;
+    grid-template-columns: 1fr 1fr;
+    box-shadow: none;
+    border: 0;
+    border-top: 1px solid #f2f2f2;
+    border-radius: 0;
+    padding: 6px 0 12px;
+    animation: none;
+    margin-left: 8px;
+    background: transparent;
+  }
+  .mega-menu a { font-size: 13px; padding: 10px 12px; color: #555; }
   .hero { min-height: 700px; padding: 40px 24px; }
   .hero-copy { width: 100%; }
   .steps { display: none; }
   .capability-tiles { grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 48px 0 60px; }
   .tile-featured { grid-column: span 2; }
   .stats-section { grid-template-columns: 1fr 1fr; gap: 14px; padding: 70px 24px; }
+  .stats-section article { padding: 26px 20px; min-height: auto; }
   .case-grid { grid-template-columns: 1fr; }
   .case-heading { display: block; }
   .solution-grid, .solution-grid article.wide { grid-template-columns: 1fr; grid-column: auto; }
+  .solution-grid article { padding: 28px 22px; }
   .advantage-layout { grid-template-columns: 1fr; }
   .cta { margin: 60px 16px; padding: 40px 24px 0; }
   footer { grid-template-columns: 1fr 1fr; padding: 48px 24px; gap: 32px; }
   footer > .logo, footer > p { grid-column: 1/-1; }
+  .footer-inner { grid-template-columns: 1fr 1fr; padding: 48px 24px; gap: 32px; }
+  .footer-brand { grid-column: 1 / -1; }
   .certified-grid { grid-template-columns: 1fr; }
   .contact-row { display: grid; gap: 20px; }
   .columns { columns: 1; }
+  .testimonial-row article { flex: 0 0 80vw; }
 }
 
 @media (max-width: 600px) {
+  body { padding-top: 60px; }
   .site-header { height: 60px; padding: 0 16px; }
+  .shared-nav { top: 60px; }
+  .logo { font-size: 20px !important; }
   .hero { min-height: calc(100svh - 60px); padding: 24px 18px 40px; align-items: flex-start; }
   .hero h1 { font-size: clamp(36px, 10vw, 50px); letter-spacing: -2px; margin: 48px 0 20px; }
   .hero p { font-size: 16px; margin-bottom: 28px; }
+  .hero-badge-row { flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
   .button-row { flex-direction: column; align-items: stretch; gap: 10px; }
   .button-row a { text-align: center; }
   .capability-tiles { grid-template-columns: 1fr; gap: 10px; }
@@ -1809,17 +1867,20 @@ footer b { display: block; font-size: 9px; letter-spacing: 1.5px; color: #fff; m
   .certified-grid { grid-template-columns: 1fr; }
   .advantages { padding: 64px 18px; }
   .advantage-layout { grid-template-columns: 1fr; }
+  .advantage-tab-btn { padding: 16px 18px; }
   .voices { padding: 64px 0 48px; }
   .testimonial-row { padding: 0 18px; }
-  .testimonial-row article { flex: 0 0 calc(100vw - 36px); }
+  .testimonial-row article { flex: 0 0 calc(100vw - 36px); padding: 24px; }
   .cta { margin: 48px 10px; padding: 32px 18px 0; border-radius: 28px; }
   .cta h2 { font-size: clamp(28px, 8vw, 38px); }
+  .calendar { padding: 20px; }
+  .days { gap: 4px; }
   footer { display: block; padding: 40px 18px; }
-  footer > div { margin-bottom: 28px; }
+  .footer-inner { display: block; padding: 40px 18px; }
+  .footer-inner > div, footer > div { margin-bottom: 28px; }
   .copyright { margin-top: 8px; display: block; }
-  .footer-legal { margin-top: 14px; }
-  .chat { width: 52px; height: 52px; right: 16px; bottom: 16px; }
-  .logo { font-size: 20px; }
+  .footer-legal { margin-top: 14px; flex-wrap: wrap; gap: 12px; }
+  .orange-button { padding: 12px 22px; font-size: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
