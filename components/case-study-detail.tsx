@@ -1,6 +1,12 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { SiteHeader } from '@/components/site-header'
+import { Footer } from '@/components/site-footer'
+import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
+import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
+import { Stats, CertifiedOperations, StrategicAdvantages, Voices, CTA } from '@/app/page'
 import type { CaseStudy } from '@/lib/site-data'
 
 const caseImages: Record<string, string> = {
@@ -74,80 +80,223 @@ const caseDetails: Record<string, {
 }
 
 export function CaseStudyDetail({ study }: { study: CaseStudy }) {
+  const pageRef = useRef<HTMLElement>(null)
+  useEffect(() => {
+    const root = pageRef.current
+    if (!root) return
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('is-visible')),
+      { threshold: 0.08 }
+    )
+    root.querySelectorAll('[data-reveal]').forEach((element) => observer.observe(element))
+    return () => observer.disconnect()
+  }, [])
+
   const img = caseImages[study.slug] ?? 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80'
-  const detail = caseDetails[study.slug]
+  const detail = caseDetails[study.slug] ?? {
+    challenge: 'The enterprise required a robust operational overhaul to eliminate manual friction and scale commercial performance.',
+    approach: 'We architected a bespoke growth infrastructure with full-funnel tracking, integrated technology, and agile execution.',
+    results: [
+      { label: 'Efficiency Gain', value: '+140%' },
+      { label: 'Pipeline Velocity', value: '2.5×' },
+      { label: 'Data Accuracy', value: '99.9%' },
+    ],
+  }
 
   return (
-    <div className="case-detail-page">
-      <section className="case-detail-hero">
-        <div className="container">
-          <Link className="case-link" href="/case-studies" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 32 }}>
-            ← ALL CASE STUDIES
-          </Link>
-          <div className="eyebrow orange" style={{ marginBottom: 20 }}>{study.tags[0]}</div>
-          <h1>{study.title}</h1>
-          <p style={{ marginTop: 20 }}>{study.description}</p>
-        </div>
-        <div className="container" style={{ marginTop: 48 }}>
-          <img src={img} alt={study.title} style={{ width: '100%', height: 'min(56vw, 600px)', objectFit: 'cover', borderRadius: 28, display: 'block' }} />
-        </div>
-      </section>
-
-      {detail && (
-        <>
-          <section className="case-detail-overview">
-            <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 72, padding: '100px clamp(20px,5vw,100px)' }}>
-              <div>
-                <div className="eyebrow orange" style={{ marginBottom: 20 }}>PROJECT OVERVIEW</div>
-                <h2 style={{ fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.08, letterSpacing: '-2px', marginBottom: 24 }}>
-                  A focused story of strategy, delivery, and measurable outcomes.
-                </h2>
-                <p style={{ color: '#536074', fontSize: 18, lineHeight: 1.6 }}>{study.description}</p>
+    <>
+      <SiteHeader />
+      <main ref={pageRef} className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
+        {/* Immersive 3D Globe Hero Section */}
+        <section className="case-studies-hero-immersive" data-reveal>
+          <div className="container case-hero-foreground">
+            <div className="case-hero-content-left">
+              <div className="case-hero-eyebrow-wrap">
+                <div className="eyebrow orange">{study.category?.toUpperCase() || 'GROWTH CASE STUDY'}</div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 20, paddingTop: 8 }}>
-                {detail.results.map(r => (
-                  <div key={r.label} style={{ background: '#f9f8f6', borderRadius: 20, padding: '28px 32px', border: '1px solid #e8e4df' }}>
-                    <div className="eyebrow orange" style={{ marginBottom: 12 }}>{r.label}</div>
-                    <strong style={{ fontSize: 48, fontWeight: 700, color: 'var(--orange)', letterSpacing: '-2px', lineHeight: 1 }}>{r.value}</strong>
+
+              {/* 3D WebGL Globe */}
+              <CaseStudyHeroGlobe />
+
+              <h1>
+                {study.title}<br />
+                <em style={{ color: 'var(--orange)', fontStyle: 'normal' }}>delivered</em>{' '}
+                <strong style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontWeight: 400, color: '#ffffff' }}>at scale.</strong>
+              </h1>
+              <p className="lead-text">
+                {study.description}
+              </p>
+
+              <div className="case-hero-actions">
+                <a className="orange-button" href="#case-study-narrative">
+                  EXPLORE CASE STUDY ↓
+                </a>
+                <Link className="outline-button" href="/#contact" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>
+                  TALK TO AN EXPERT
+                </Link>
+              </div>
+
+              {/* Inline Metrics Bar */}
+              <div className="case-hero-inline-stats">
+                <div className="inline-stat-item">
+                  <strong>{study.roi}</strong>
+                  <span>{study.roiLabel}</span>
+                </div>
+                <div className="inline-stat-item">
+                  <strong>{study.metric}</strong>
+                  <span>{study.metricLabel}</span>
+                </div>
+                {detail.results[0] && (
+                  <div className="inline-stat-item">
+                    <strong>{detail.results[0].value}</strong>
+                    <span>{detail.results[0].label}</span>
+                  </div>
+                )}
+                {detail.results[1] && (
+                  <div className="inline-stat-item">
+                    <strong>{detail.results[1].value}</strong>
+                    <span>{detail.results[1].label}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Deep Dive Case Study Narrative */}
+        <section id="case-study-narrative" style={{ background: '#07080b', color: '#ffffff', padding: '100px 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="container">
+            {/* Top Project Media Showcase */}
+            <div data-reveal style={{ position: 'relative', width: '100%', height: 'clamp(320px, 45vw, 560px)', borderRadius: 28, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', marginBottom: 64, boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }}>
+              <img src={img} alt={study.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 100%)' }} />
+              <div style={{ position: 'absolute', bottom: 32, left: 32, right: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 20 }}>
+                <div>
+                  <div className="eyebrow orange" style={{ marginBottom: 10, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }}>{study.category}</div>
+                  <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 42px)', fontWeight: 500, color: '#ffffff', margin: 0, letterSpacing: '-1px' }}>{study.title}</h2>
+                </div>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  {study.tags?.map((tag) => (
+                    <span key={tag} style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(10px)', color: '#ffffff', padding: '6px 14px', borderRadius: 999, fontSize: 12, fontWeight: 500, border: '1px solid rgba(255,255,255,0.2)' }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Challenge & Approach 2-Column Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32, marginBottom: 56 }}>
+              <div data-reveal style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, padding: '36px 32px' }}>
+                <div className="eyebrow orange" style={{ marginBottom: 16 }}>THE CHALLENGE</div>
+                <h3 style={{ fontSize: 'clamp(22px, 2.5vw, 30px)', fontWeight: 500, color: '#ffffff', marginBottom: 16, letterSpacing: '-0.5px' }}>
+                  Disconnected systems and untapped potential.
+                </h3>
+                <p style={{ color: '#a0acbe', fontSize: 16, lineHeight: 1.65, margin: 0 }}>
+                  {detail.challenge}
+                </p>
+              </div>
+
+              <div data-reveal style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, padding: '36px 32px' }}>
+                <div className="eyebrow orange" style={{ marginBottom: 16 }}>OUR APPROACH</div>
+                <h3 style={{ fontSize: 'clamp(22px, 2.5vw, 30px)', fontWeight: 500, color: '#ffffff', marginBottom: 16, letterSpacing: '-0.5px' }}>
+                  Deterministic architecture and full-funnel engineering.
+                </h3>
+                <p style={{ color: '#a0acbe', fontSize: 16, lineHeight: 1.65, margin: 0 }}>
+                  {detail.approach}
+                </p>
+              </div>
+            </div>
+
+            {/* Measured Impact Matrix */}
+            <div data-reveal style={{ background: 'radial-gradient(circle at 50% 50%, rgba(255,90,31,0.08) 0%, rgba(12,14,19,0.95) 100%)', border: '1px solid rgba(255,90,31,0.25)', borderRadius: 24, padding: '40px 32px' }}>
+              <div className="eyebrow orange" style={{ marginBottom: 12 }}>DELIVERED OUTCOMES</div>
+              <h3 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 500, color: '#ffffff', marginBottom: 28, letterSpacing: '-1px' }}>
+                Measurable commercial impact across every dimension.
+              </h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 24 }}>
+                <div style={{ padding: '20px 24px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <span style={{ fontSize: 12, color: '#8c97a8', textTransform: 'uppercase', letterSpacing: 1, display: 'block', marginBottom: 6 }}>{study.roiLabel}</span>
+                  <strong style={{ fontSize: 36, color: 'var(--orange)', fontWeight: 600, letterSpacing: '-1px' }}>{study.roi}</strong>
+                </div>
+                <div style={{ padding: '20px 24px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <span style={{ fontSize: 12, color: '#8c97a8', textTransform: 'uppercase', letterSpacing: 1, display: 'block', marginBottom: 6 }}>{study.metricLabel}</span>
+                  <strong style={{ fontSize: 36, color: 'var(--orange)', fontWeight: 600, letterSpacing: '-1px' }}>{study.metric}</strong>
+                </div>
+                {detail.results.map((r) => (
+                  <div key={r.label} style={{ padding: '20px 24px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <span style={{ fontSize: 12, color: '#8c97a8', textTransform: 'uppercase', letterSpacing: 1, display: 'block', marginBottom: 6 }}>{r.label}</span>
+                    <strong style={{ fontSize: 36, color: '#ffffff', fontWeight: 600, letterSpacing: '-1px' }}>{r.value}</strong>
                   </div>
                 ))}
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section style={{ background: '#0b0b0c', color: '#fff', padding: '100px 0' }}>
-            <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 72 }}>
-              <div>
-                <div className="eyebrow orange" style={{ marginBottom: 20 }}>THE CHALLENGE</div>
-                <h2 style={{ fontSize: 'clamp(28px,3.5vw,44px)', lineHeight: 1.1, letterSpacing: '-1.5px', marginBottom: 24 }}>
-                  Growth needed a stronger operating system.
-                </h2>
-                <p style={{ color: '#aab2c0', fontSize: 17, lineHeight: 1.65 }}>{detail.challenge}</p>
+        {/* Quantified Transformation Benchmarks Section */}
+        <section className="case-benchmark-section" id="benchmarks">
+          <div className="container">
+            <div className="eyebrow orange">MEASURABLE OUTCOMES</div>
+            <h2 style={{ fontSize: 'clamp(32px, 4vw, 52px)', letterSpacing: '-1.5px', marginTop: 14 }}>
+              How dotcomGrowth Compares to<br />
+              <span style={{ color: 'var(--orange)' }}>Traditional Agency Generalists</span>
+            </h2>
+            <p style={{ color: '#8f9db3', maxWidth: 540, marginTop: 12, fontSize: 16 }}>
+              We replace siloed guesswork with unified engineering, precise attribution models, and full-funnel revenue architectures.
+            </p>
+
+            <div className="benchmark-grid">
+              <div className="benchmark-card" data-reveal>
+                <div className="dimension">Pipeline Velocity</div>
+                <strong>4.2× Faster</strong>
+                <p>Automated lead enrichment and instantaneous sales routing algorithms.</p>
+                <div className="comparison-row">
+                  Industry Avg: <span>1.1×</span>
+                </div>
               </div>
-              <div>
-                <div className="eyebrow orange" style={{ marginBottom: 20 }}>THE APPROACH</div>
-                <h2 style={{ fontSize: 'clamp(28px,3.5vw,44px)', lineHeight: 1.1, letterSpacing: '-1.5px', marginBottom: 24 }}>
-                  Strategy, execution, and technology in one lane.
-                </h2>
-                <p style={{ color: '#aab2c0', fontSize: 17, lineHeight: 1.65 }}>{detail.approach}</p>
+
+              <div className="benchmark-card" data-reveal>
+                <div className="dimension">CAC Compression</div>
+                <strong>-54% Cost</strong>
+                <p>Intent-driven audience clustering and deep server-side conversion API tracking.</p>
+                <div className="comparison-row">
+                  Industry Avg: <span>-8%</span>
+                </div>
+              </div>
+
+              <div className="benchmark-card" data-reveal>
+                <div className="dimension">System Uptime</div>
+                <strong>99.99%</strong>
+                <p>Enterprise microservices architecture with automated failover on AWS & Cloud.</p>
+                <div className="comparison-row">
+                  Industry Avg: <span>99.2%</span>
+                </div>
+              </div>
+
+              <div className="benchmark-card" data-reveal>
+                <div className="dimension">Attribution Precision</div>
+                <strong>100% Deterministic</strong>
+                <p>Unified data warehouse with multi-touch pipeline attribution and CRM sync.</p>
+                <div className="comparison-row">
+                  Industry Avg: <span>Estimated</span>
+                </div>
               </div>
             </div>
-          </section>
-        </>
-      )}
-
-      <section style={{ background: 'var(--cream)', padding: '100px 0', textAlign: 'center' }}>
-        <div className="container">
-          <div className="eyebrow orange" style={{ marginBottom: 24 }}>KEEP EXPLORING</div>
-          <h2 style={{ fontSize: 'clamp(36px,5vw,60px)', lineHeight: 1.08, letterSpacing: '-2px', marginBottom: 36 }}>
-            More work, built for measurable outcomes.
-          </h2>
-          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link className="orange-button" href="/case-studies">VIEW ALL CASE STUDIES</Link>
-            <Link className="outline-button" href="/#contact">START YOUR PROJECT</Link>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+
+        {/* Explore More Case Studies */}
+        <CaseStudiesShowcase />
+
+        {/* Global Sections Matching Case Studies Page */}
+        <Stats />
+        <CertifiedOperations />
+        <StrategicAdvantages />
+        <Voices />
+        <CTA />
+        <Footer />
+      </main>
+    </>
   )
 }
