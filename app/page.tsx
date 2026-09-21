@@ -374,7 +374,6 @@ export default function Home() {
       <Voices />
       <CTA />
       <Footer />
-      <button className="chat" aria-label="Open chat">💬</button>
     </main>
   )
 }
