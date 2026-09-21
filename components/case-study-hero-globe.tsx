@@ -82,10 +82,11 @@ export function CaseStudyHeroGlobe() {
     const container = mountRef.current
     if (!container) return
 
-    let width = container.clientWidth || window.innerWidth
-    let height = container.clientHeight || 720
+    const isMobile = window.innerWidth <= 900
+    const heroParent = container.closest('.case-studies-hero-immersive')
+    let width = isMobile ? (container.clientWidth || 290) : (heroParent?.clientWidth || window.innerWidth)
+    let height = isMobile ? (container.clientHeight || 210) : (heroParent?.clientHeight || 740)
 
-    const isMobile = window.innerWidth < 768
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     // ─── Scene & Camera ───────────────────────────────────────
@@ -106,10 +107,10 @@ export function CaseStudyHeroGlobe() {
     renderer.setClearColor(0x000000, 0)
     container.appendChild(renderer.domElement)
 
-    // Master Globe Pivot Group positioned on the RIGHT side for desktop, centered for mobile
+    // Master Globe Pivot Group: positioned on the RIGHT side for desktop (x = 1.25), centered for mobile
     const masterGroup = new THREE.Group()
-    if (window.innerWidth > 1024) {
-      masterGroup.position.set(1.18, 0.05, 0)
+    if (!isMobile) {
+      masterGroup.position.set(1.25, 0.05, 0)
     } else {
       masterGroup.position.set(0, 0, 0)
     }
@@ -449,12 +450,14 @@ export function CaseStudyHeroGlobe() {
     // ─── 9. Resize Handling ───────────────────────────────────
     const handleResize = () => {
       if (!container) return
-      width = container.clientWidth || window.innerWidth
-      height = container.clientHeight || 720
+      const isMob = window.innerWidth <= 900
+      const hero = container.closest('.case-studies-hero-immersive')
+      width = isMob ? (container.clientWidth || 290) : (hero?.clientWidth || window.innerWidth)
+      height = isMob ? (container.clientHeight || 210) : (hero?.clientHeight || 740)
       camera.aspect = width / height
       camera.position.set(0, 0, 4.4)
-      if (window.innerWidth > 1024) {
-        masterGroup.position.set(1.18, 0.05, 0)
+      if (!isMob) {
+        masterGroup.position.set(1.25, 0.05, 0)
       } else {
         masterGroup.position.set(0, 0, 0)
       }

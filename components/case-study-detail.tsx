@@ -164,25 +164,31 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
         </section>
 
         {/* Deep Dive Case Study Narrative */}
-        <section id="case-study-narrative" style={{ background: '#07080b', color: '#ffffff', padding: '100px 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <section id="case-study-narrative" style={{ background: '#07080b', color: '#ffffff', padding: '80px 0 100px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="container">
-            {/* Top Project Media Showcase */}
-            <div data-reveal style={{ position: 'relative', width: '100%', height: 'clamp(320px, 45vw, 560px)', borderRadius: 28, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', marginBottom: 64, boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }}>
-              <img src={img} alt={study.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 100%)' }} />
-              <div style={{ position: 'absolute', bottom: 32, left: 32, right: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 20 }}>
-                <div>
-                  <div className="eyebrow orange" style={{ marginBottom: 10, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }}>{study.category}</div>
-                  <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 42px)', fontWeight: 500, color: '#ffffff', margin: 0, letterSpacing: '-1px' }}>{study.title}</h2>
-                </div>
+            {/* Clean Featured Project Image Visual (No text overlay) */}
+            <div data-reveal style={{ position: 'relative', width: '100%', height: 'clamp(260px, 45vw, 540px)', borderRadius: 28, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', marginBottom: 36, boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }}>
+              <img src={img} alt={study.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            </div>
+
+            {/* Project Header Info (Cleanly Below Image) */}
+            <div data-reveal style={{ marginBottom: 48 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14, marginBottom: 16 }}>
+                <div className="eyebrow orange" style={{ margin: 0 }}>{study.category?.toUpperCase()}</div>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   {study.tags?.map((tag) => (
-                    <span key={tag} style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(10px)', color: '#ffffff', padding: '6px 14px', borderRadius: 999, fontSize: 12, fontWeight: 500, border: '1px solid rgba(255,255,255,0.2)' }}>
+                    <span key={tag} style={{ background: 'rgba(255,255,255,0.06)', color: '#c0c8d4', padding: '6px 14px', borderRadius: 999, fontSize: 12, fontWeight: 500, border: '1px solid rgba(255,255,255,0.12)' }}>
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
+              <h2 style={{ fontSize: 'clamp(26px, 4vw, 46px)', fontWeight: 500, color: '#ffffff', margin: '0 0 16px', letterSpacing: '-1.5px', lineHeight: 1.12 }}>
+                {study.title}
+              </h2>
+              <p style={{ color: '#a0acbe', fontSize: 17, lineHeight: 1.6, margin: 0, maxWidth: 840 }}>
+                {study.description}
+              </p>
             </div>
 
             {/* Challenge & Approach 2-Column Grid */}

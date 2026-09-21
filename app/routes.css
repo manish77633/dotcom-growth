@@ -44,11 +44,24 @@
   .shared-nav.mobile-open { display: flex !important; flex-direction: column; }
 }
 
-.nav-dropdown { position: relative; }
-.nav-dropdown button { padding: 4px 0; display: flex; align-items: center; gap: 5px; }
-.mega-menu { position: absolute; top: calc(100% + 18px); left: 50%; transform: translateX(-50%); display: grid; grid-template-columns: repeat(2,190px); gap: 4px; background: #fff; border: 1px solid #e4e2de; border-radius: 18px; padding: 14px; box-shadow: 0 20px 50px #00000018; animation: menu-in .2s ease both; z-index: 200; }
-.mega-menu a { padding: 12px; border-radius: 10px; font-size: 13px; white-space: nowrap; }
-.mega-menu a:hover, .mega-menu a:focus-visible { background: #fff2eb; color: var(--orange); }
+/* Desktop Mega Menu Dropdown */
+@media (min-width: 901px) {
+  .nav-dropdown { position: relative; }
+  .nav-dropdown button { padding: 4px 0; display: flex; align-items: center; gap: 5px; }
+  .mega-menu { position: absolute; top: calc(100% + 18px); left: 50%; transform: translateX(-50%); display: grid; grid-template-columns: repeat(2,190px); gap: 4px; background: #fff; border: 1px solid #e4e2de; border-radius: 18px; padding: 14px; box-shadow: 0 20px 50px #00000018; animation: menu-in .2s ease both; z-index: 200; }
+  .mega-menu a { padding: 12px; border-radius: 10px; font-size: 13px; white-space: nowrap; }
+  .mega-menu a:hover, .mega-menu a:focus-visible { background: #fff2eb; color: var(--orange); }
+}
+
+/* Mobile Mega Menu Accordion */
+@media (max-width: 900px) {
+  .nav-dropdown { width: 100%; }
+  .nav-dropdown > button { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; font-size: 15px; font-weight: 500; color: #111 !important; border-bottom: 1px solid #f0f0f0; }
+  .mega-menu { position: static !important; transform: none !important; display: flex !important; flex-direction: column !important; width: 100% !important; max-width: 100% !important; background: #f8f9fa !important; border: none !important; border-bottom: 1px solid #f0f0f0 !important; border-radius: 0 !important; box-shadow: none !important; padding: 8px 16px 14px !important; animation: none !important; }
+  .mega-menu a { display: block !important; width: 100% !important; white-space: normal !important; padding: 10px 12px !important; font-size: 13.5px !important; color: #444 !important; border-radius: 8px !important; }
+  .mega-menu a:hover { background: #fff2eb !important; color: var(--orange) !important; }
+}
+
 @keyframes menu-in { from { opacity: 0; transform: translate(-50%,-8px); } to { opacity: 1; transform: translate(-50%,0); } }
 
 /* ─── 80% Content Width Hero Styling ─────────────────────── */
