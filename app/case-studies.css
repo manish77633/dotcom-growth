@@ -56,7 +56,7 @@
 
 /* ─── Immersive 3D Globe Hero (Full-Bleed WebGL, No Cards) ─── */
 .case-studies-hero-immersive {
-  position: relative;
+  position: relative !important;
   min-height: 740px;
   background: #000000 !important;
   color: #ffffff;
@@ -67,34 +67,45 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Desktop: left text, right globe — identical structure to home hero */
 @media (min-width: 901px) {
   .case-studies-hero-immersive {
-    padding: 140px 0 110px !important;
-    min-height: 760px !important;
-    position: relative !important;
+    padding: 130px 0 100px !important;
+    min-height: 740px !important;
   }
+
+  /* The container div stays normal flow — text lives inside it */
   .case-hero-foreground {
-    position: static !important;
     width: 100% !important;
     pointer-events: auto !important;
+    position: static !important;
   }
+
+  /* Text column occupies only the left ~46% */
   .case-hero-content-left {
     position: static !important;
-    max-width: 580px !important;
+    width: 44% !important;
+    max-width: 560px !important;
+    z-index: 2 !important;
+    flex-shrink: 0 !important;
   }
+
+  /* Globe canvas: absolutely fills the right 55% of the SECTION (not container) */
   .case-hero-globe-canvas-wrap {
     position: absolute !important;
     top: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    left: 48% !important;
-    width: 52% !important;
-    max-width: 52% !important;
+    left: 45% !important;
+    width: 55% !important;
+    max-width: none !important;
     height: 100% !important;
     z-index: 1 !important;
     pointer-events: none !important;
     overflow: hidden !important;
+    transform: none !important;
   }
+
   .case-hero-inline-stats,
   .case-hero-metrics-bar {
     display: grid !important;
@@ -103,7 +114,7 @@
     margin-top: 50px !important;
     padding-top: 32px !important;
     border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-    max-width: 600px !important;
+    max-width: 560px !important;
   }
 }
 
@@ -980,16 +991,64 @@
   }
   .case-cta-section {
     padding: 60px 0 !important;
+    overflow: hidden !important;
   }
   .case-cta-card {
     grid-template-columns: 1fr !important;
-    padding: 32px 18px !important;
-    border-radius: 22px !important;
+    padding: 36px 20px 24px !important;
+    border-radius: 24px !important;
+    gap: 24px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+  }
+  .case-cta-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
   .case-cta-content h2 {
-    font-size: clamp(24px, 6.5vw, 34px) !important;
-    letter-spacing: -1px !important;
+    font-size: clamp(22px, 6vw, 32px) !important;
+    letter-spacing: -0.8px !important;
     line-height: 1.15 !important;
+    margin: 12px 0 16px !important;
+    word-break: break-word !important;
+  }
+  .case-cta-content p {
+    font-size: 14px !important;
+    line-height: 1.55 !important;
+    max-width: 100% !important;
+    margin-bottom: 24px !important;
+    color: #a3afc2 !important;
+  }
+  .case-cta-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .case-cta-actions .orange-button,
+  .case-cta-actions .outline-button {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 14px 20px !important;
+    font-size: 13px !important;
+    letter-spacing: 0.5px !important;
+    box-sizing: border-box !important;
+  }
+  .case-cta-scene-wrap {
+    width: 100% !important;
+    max-width: 280px !important;
+    height: 220px !important;
+    margin: 8px auto 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
   }
   /* ─── Technology Detail Enables Section Responsive ─── */
   .tech-enables-section {

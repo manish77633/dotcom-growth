@@ -7,29 +7,10 @@ import { Footer } from '@/components/site-footer'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { CaseStudyCTAScene } from '@/components/case-study-hero-scene'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
-import { TrustedBrands, Stats, CertifiedOperations, Voices } from '@/app/page'
-
-function useCaseStudyReveal() {
-  useEffect(() => {
-    const els = document.querySelectorAll('[data-reveal]')
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('is-visible')
-            io.unobserve(e.target)
-          }
-        })
-      },
-      { threshold: 0.05, rootMargin: '0px 0px -40px 0px' }
-    )
-    els.forEach((el) => io.observe(el))
-    return () => io.disconnect()
-  }, [])
-}
+import { TrustedBrands, Stats, CertifiedOperations, Voices, useScrollReveal } from '@/app/page'
 
 export default function CaseStudiesPage() {
-  useCaseStudyReveal()
+  useScrollReveal()
 
   return (
     <>

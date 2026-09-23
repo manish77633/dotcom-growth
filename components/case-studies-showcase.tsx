@@ -31,7 +31,7 @@ function CaseStudyRow({
   isReversed,
   img,
 }: {
-  study: (typeof caseStudies)[0]
+  study: (typeof caseStudies)[number]
   idx: number
   isReversed: boolean
   img: string

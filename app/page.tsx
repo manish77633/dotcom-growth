@@ -74,19 +74,104 @@ export function Logo() {
 
 function Header() { return <SiteHeader /> }
 
-/** Scroll-reveal hook */
 export function useScrollReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll('[data-reveal]')
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target) }
-      }),
-      { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
-    )
-    els.forEach((el) => io.observe(el))
-    return () => io.disconnect()
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) {
+      document.querySelectorAll<HTMLElement>('[data-reveal], .scroll-mask-reveal, .scroll-mask-reveal-rtl').forEach((el) => {
+        el.style.setProperty('--reveal-progress', '1')
+        el.classList.add('is-revealed')
+      })
+      return
+    }
+
+    // Monotonic progress map: progress only ever increases, NEVER decreases on scroll up
+    const elementProgressMap = new WeakMap<HTMLElement, number>()
+
+    let ticking = false
+    const updateScrollProgress = () => {
+      const elements = document.querySelectorAll<HTMLElement>('[data-reveal], .scroll-mask-reveal, .scroll-mask-reveal-rtl')
+      const windowHeight = window.innerHeight
+
+      elements.forEach((el) => {
+        // Permanently skip elements already fully revealed
+        if (el.classList.contains('is-revealed')) return
+
+        const currentMax = elementProgressMap.get(el) || 0
+        const rect = el.getBoundingClientRect()
+        // Balanced scroll range: smooth gradual reveal, slightly faster completion
+        const start = windowHeight * 0.90
+        const end = windowHeight * 0.20
+        const rawProgress = (start - rect.top) / (start - end)
+
+        // Strictly monotonic: can only increase, never decrease on scroll up
+        const newProgress = Math.max(currentMax, Math.min(1, Math.max(0, rawProgress)))
+        elementProgressMap.set(el, newProgress)
+
+        el.style.setProperty('--reveal-progress', newProgress.toFixed(3))
+
+        if (newProgress >= 0.97) {
+          el.style.setProperty('--reveal-progress', '1')
+          el.classList.add('is-revealed')
+        }
+      })
+      ticking = false
+    }
+
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateScrollProgress)
+        ticking = true
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll, { passive: true })
+    updateScrollProgress()
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [])
+}
+
+const DIVISION_WORDS = ['MARTECH', 'DIGITAL TRANSFORMATION', 'GROWTH ENGINEERING']
+
+function AnimatedDivisionWord() {
+  const [wordIndex, setWordIndex] = useState(0)
+  const [displayText, setDisplayText] = useState('MARTECH')
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  useEffect(() => {
+    const currentWord = DIVISION_WORDS[wordIndex]
+    let timeout: NodeJS.Timeout
+
+    if (!isDeleting && displayText === currentWord) {
+      timeout = setTimeout(() => setIsDeleting(true), 1400)
+    } else if (isDeleting && displayText === '') {
+      setIsDeleting(false)
+      setWordIndex((prev) => (prev + 1) % DIVISION_WORDS.length)
+      timeout = setTimeout(() => {}, 200)
+    } else if (isDeleting) {
+      timeout = setTimeout(() => {
+        setDisplayText((prev) => prev.slice(0, -1))
+      }, 55)
+    } else {
+      timeout = setTimeout(() => {
+        setDisplayText(currentWord.slice(0, displayText.length + 1))
+      }, 85)
+    }
+
+    return () => clearTimeout(timeout)
+  }, [displayText, isDeleting, wordIndex])
+
+  return (
+    <div className="eyebrow animated-division-wrap">
+      <span className="animated-division-text">{displayText}</span>
+      <span className="animated-division-cursor" aria-hidden="true">|</span>
+    </div>
+  )
 }
 
 function Hero() {
@@ -96,8 +181,39 @@ function Hero() {
         <div className="hero-copy">
           <div className="hero-badge-row">
             <div className="eyebrow vertical">STRATEGIC DIVISION</div>
-            <div className="eyebrow">MARTECH</div>
+            <AnimatedDivisionWord />
           </div>
+
+          {/* Mobile Hero 3D Globe Visual — Refined subtle decorative separator */}
+          <div className="hero-mobile-circle-bg" aria-hidden="true">
+            <svg viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg" className="hero-mobile-circle-svg">
+              <defs>
+                <radialGradient id="mobileHeroGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#ff5a1f" stopOpacity="0.18" />
+                  <stop offset="65%" stopColor="#ff5a1f" stopOpacity="0.04" />
+                  <stop offset="100%" stopColor="#ff5a1f" stopOpacity="0" />
+                </radialGradient>
+                <linearGradient id="heroCircGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#ff5a1f" stopOpacity="0.45" />
+                  <stop offset="100%" stopColor="#ff5a1f" stopOpacity="0.08" />
+                </linearGradient>
+                <linearGradient id="heroCircGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#ff7a45" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#ff5a1f" stopOpacity="0.04" />
+                </linearGradient>
+              </defs>
+              <circle cx="120" cy="90" r="75" fill="url(#mobileHeroGlow)" />
+              <circle cx="120" cy="90" r="70" stroke="url(#heroCircGrad1)" strokeWidth="1.2" strokeDasharray="4 6" />
+              <circle cx="120" cy="90" r="54" stroke="url(#heroCircGrad2)" strokeWidth="1" />
+              <ellipse cx="120" cy="90" rx="72" ry="28" stroke="#ff5a1f" strokeOpacity="0.28" strokeWidth="1" transform="rotate(-28 120 90)" />
+              <ellipse cx="120" cy="90" rx="66" ry="24" stroke="#ff7a45" strokeOpacity="0.2" strokeWidth="0.8" transform="rotate(32 120 90)" />
+              <circle cx="120" cy="90" r="36" stroke="#ff5a1f" strokeOpacity="0.18" strokeWidth="0.8" strokeDasharray="2 3" />
+              <circle cx="170" cy="65" r="2.8" fill="#ff5a1f" />
+              <circle cx="72" cy="112" r="2.2" fill="#ff7a45" />
+              <circle cx="152" cy="132" r="2.5" fill="#ff5a1f" />
+            </svg>
+          </div>
+
           <h1>
             Enterprise Scale.<br />
             <em>Agency Speed.</em><br />

@@ -103,15 +103,15 @@ export function CaseStudyHeroGlobe() {
     if (!container) return
 
     const isMobile = window.innerWidth <= 900
-    let width = container.clientWidth || (isMobile ? 290 : Math.round(window.innerWidth * 0.52))
+    let width = container.clientWidth || (isMobile ? 290 : Math.round(window.innerWidth * 0.55))
     let height = container.clientHeight || (isMobile ? 210 : 740)
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    // ─── Scene & Camera ───────────────────────────────────────
+    // ─── Scene & Camera ───────────────────────────────────
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000)
-    camera.position.set(0, 0, 4.0)
+    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 1000)
+    camera.position.set(0, 0, 5.0)
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -133,7 +133,7 @@ export function CaseStudyHeroGlobe() {
     masterGroup.add(globeGroup)
 
     // Globe Radius
-    const GLOBE_RADIUS = 1.2
+    const GLOBE_RADIUS = 1.15
 
     // ─── 1. Inner Dark Core (Add FIRST so dots render on top) ───
     const innerCoreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.985, 36, 36)
@@ -141,8 +141,10 @@ export function CaseStudyHeroGlobe() {
       color: 0x030407,
       transparent: true,
       opacity: 0.95,
+      depthWrite: false,
     })
     const innerCore = new THREE.Mesh(innerCoreGeo, innerCoreMat)
+    innerCore.renderOrder = 0
     globeGroup.add(innerCore)
 
     // ─── 2. Instant 360° Dense Bright White & Orange Point Cloud ──
@@ -213,39 +215,18 @@ export function CaseStudyHeroGlobe() {
       map: pointTexture,
       transparent: true,
       depthWrite: false,
+      depthTest: false,
       blending: THREE.AdditiveBlending,
       opacity: 0.98,
     })
 
     const particleGlobe = new THREE.Points(pointGeometry, pointMaterial)
+    particleGlobe.renderOrder = 2
     globeGroup.add(particleGlobe)
 
-    // ─── 3. Outer Glowing Atmosphere Aura ───────────────────────
-    const atmosphereGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 1.05, 28, 28)
-    const atmosphereMat = new THREE.ShaderMaterial({
-      vertexShader: `
-        varying vec3 vNormal;
-        void main() {
-          vNormal = normalize(normalMatrix * normal);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying vec3 vNormal;
-        void main() {
-          float intensity = pow(0.68 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.4);
-          gl_FragColor = vec4(1.0, 0.35, 0.12, 1.0) * intensity * 0.9;
-        }
-      `,
-      blending: THREE.AdditiveBlending,
-      side: THREE.BackSide,
-      transparent: true,
-    })
-    const atmosphereMesh = new THREE.Mesh(atmosphereGeo, atmosphereMat)
-    globeGroup.add(atmosphereMesh)
-
-    // ─── 4. City Hub Markers & Pulsing Pins ───────────────────
+    // ─── 3. City Hub Markers & Pulsing Pins ───────────────────
     const markerGroup = new THREE.Group()
+    markerGroup.renderOrder = 4
     globeGroup.add(markerGroup)
 
     const markerPositions: THREE.Vector3[] = []
@@ -380,15 +361,13 @@ export function CaseStudyHeroGlobe() {
     // ─── 7. Immediate Synchronous First Frame Draw (No pop-in delay) ──
     renderer.render(scene, camera)
 
-    // ─── 8. Smooth Damped Mouse Parallax ───────────────────────
+    // ─── 8. Smooth Damped Mouse Parallax ────────────────────
     let targetMouseX = 0
     let targetMouseY = 0
     let currentMouseX = 0
     let currentMouseY = 0
-    let isVisible = true
 
     const onMouseMove = (e: MouseEvent) => {
-      if (!isVisible) return
       const nx = (e.clientX / window.innerWidth) * 2 - 1
       const ny = (e.clientY / window.innerHeight) * 2 - 1
       targetMouseX = nx
@@ -397,16 +376,11 @@ export function CaseStudyHeroGlobe() {
 
     window.addEventListener('mousemove', onMouseMove, { passive: true })
 
-    // ─── 9. Render Animation Loop ──────
+    // ─── 9. Render Animation Loop ──────────────────
     let animId = 0
     const clock = new THREE.Clock()
 
     const animate = () => {
-      if (!isVisible) {
-        animId = 0
-        return
-      }
-
       animId = requestAnimationFrame(animate)
       const t = clock.getElapsedTime()
 
@@ -431,32 +405,19 @@ export function CaseStudyHeroGlobe() {
         arc.photon.scale.set(scale, scale, scale)
       })
 
-      atmosphereMesh.scale.setScalar(1.0 + Math.sin(t * 1.4) * 0.008)
-
       renderer.render(scene, camera)
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting
-        if (isVisible && !animId) {
-          animId = requestAnimationFrame(animate)
-        }
-      },
-      { threshold: 0.02 }
-    )
-    observer.observe(container)
-
     animId = requestAnimationFrame(animate)
 
-    // ─── 10. Resize Handling ───────────────────────────────────
+    // ─── 10. Resize Handling ───────────────────────────────
     const handleResize = () => {
       if (!container) return
       const isMob = window.innerWidth <= 900
-      width = container.clientWidth || (isMob ? 290 : Math.round(window.innerWidth * 0.52))
+      width = container.clientWidth || (isMob ? 290 : Math.round(window.innerWidth * 0.55))
       height = container.clientHeight || (isMob ? 210 : 740)
       camera.aspect = width / height
-      camera.position.set(0, 0, 4.0)
+      camera.position.set(0, 0, 5.0)
       masterGroup.position.set(0, 0, 0)
       camera.updateProjectionMatrix()
       renderer.setSize(width, height)
@@ -466,12 +427,18 @@ export function CaseStudyHeroGlobe() {
 
     return () => {
       if (animId) cancelAnimationFrame(animId)
-      observer.disconnect()
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('resize', handleResize)
-      if (container && renderer.domElement) {
+      if (container && renderer.domElement && renderer.domElement.parentNode === container) {
         container.removeChild(renderer.domElement)
       }
+      pointGeometry.dispose()
+      pointMaterial.dispose()
+      pointTexture.dispose()
+      innerCoreGeo.dispose()
+      innerCoreMat.dispose()
+      sparkleGeo.dispose()
+      sparkleMat.dispose()
       renderer.dispose()
     }
   }, [])

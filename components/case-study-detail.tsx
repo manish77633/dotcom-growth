@@ -6,7 +6,7 @@ import { SiteHeader } from '@/components/site-header'
 import { Footer } from '@/components/site-footer'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
-import { Stats, CertifiedOperations, StrategicAdvantages, Voices, CTA } from '@/app/page'
+import { Stats, CertifiedOperations, StrategicAdvantages, Voices, CTA, useScrollReveal } from '@/app/page'
 import type { CaseStudy } from '@/lib/site-data'
 
 const caseImages: Record<string, string> = {
@@ -80,17 +80,7 @@ const caseDetails: Record<string, {
 }
 
 export function CaseStudyDetail({ study }: { study: CaseStudy }) {
-  const pageRef = useRef<HTMLElement>(null)
-  useEffect(() => {
-    const root = pageRef.current
-    if (!root) return
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('is-visible')),
-      { threshold: 0.08 }
-    )
-    root.querySelectorAll('[data-reveal]').forEach((element) => observer.observe(element))
-    return () => observer.disconnect()
-  }, [])
+  useScrollReveal()
 
   const img = caseImages[study.slug] ?? 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80'
   const detail = caseDetails[study.slug] ?? {
@@ -106,7 +96,7 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
   return (
     <>
       <SiteHeader />
-      <main ref={pageRef} className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
+      <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
         {/* Immersive 3D Globe Hero Section */}
         <section className="case-studies-hero-immersive" data-reveal>
           <div className="container case-hero-foreground">
@@ -118,10 +108,8 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
               {/* 3D WebGL Globe */}
               <CaseStudyHeroGlobe />
 
-              <h1>
-                {study.title}<br />
-                <em style={{ color: 'var(--orange)', fontStyle: 'normal' }}>delivered</em>{' '}
-                <strong style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontWeight: 400, color: '#ffffff' }}>at scale.</strong>
+              <h1 style={{ fontSize: 'clamp(28px, 3vw, 42px)', lineHeight: 1.15, letterSpacing: '-1.2px', margin: '0 0 20px', fontWeight: 500 }}>
+                {study.title}
               </h1>
               <p className="lead-text">
                 {study.description}

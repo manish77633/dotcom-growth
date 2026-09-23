@@ -118,11 +118,10 @@ export function InteractiveParticleGlobe({
     const pointCount = 18000
     const positions: number[] = []
     const colors: number[] = []
-    const sizes: number[] = []
 
     const colorOrange = new THREE.Color(0xff5a1f)
     const colorBright = new THREE.Color(0xffffff)
-    const colorDim = new THREE.Color(0x4a5568)
+    const colorSoftWhite = new THREE.Color(0xdce7ff)
 
     // Generate Fibonacci spiral points
     const phi = Math.PI * (3 - Math.sqrt(5)) // Golden angle
@@ -141,26 +140,25 @@ export function InteractiveParticleGlobe({
 
       const isLand = isLandmass(lat, lng)
 
-      // Only add points if it's land (with extra density) or random faint background stars
-      if (isLand) {
-        positions.push(x * GLOBE_RADIUS, y * GLOBE_RADIUS, z * GLOBE_RADIUS)
+      // Add position for every point on the sphere for full 360° density
+      positions.push(x * GLOBE_RADIUS, y * GLOBE_RADIUS, z * GLOBE_RADIUS)
 
+      if (isLand) {
         // Accent India / Hub region with brand orange
         if (lat >= 15 && lat <= 32 && lng >= 70 && lng <= 88) {
           colors.push(colorOrange.r, colorOrange.g, colorOrange.b)
-          sizes.push(0.026)
-        } else if (Math.random() > 0.85) {
-          colors.push(colorOrange.r * 0.9, colorOrange.g * 0.7, colorOrange.b * 0.5)
-          sizes.push(0.022)
+        } else if (Math.random() > 0.8) {
+          colors.push(colorOrange.r * 0.95, colorOrange.g * 0.75, colorOrange.b * 0.45)
         } else {
           colors.push(colorBright.r, colorBright.g, colorBright.b)
-          sizes.push(0.019)
         }
-      } else if (Math.random() > 0.92) {
-        // Very subtle ocean lattice
-        positions.push(x * GLOBE_RADIUS, y * GLOBE_RADIUS, z * GLOBE_RADIUS)
-        colors.push(colorDim.r, colorDim.g, colorDim.b)
-        sizes.push(0.01)
+      } else {
+        // Luminous dots across the entire 360° sphere so globe stays fully dense at all rotation angles
+        if (Math.random() > 0.4) {
+          colors.push(colorBright.r * 0.95, colorBright.g * 0.95, colorBright.b * 0.98)
+        } else {
+          colors.push(colorSoftWhite.r * 0.88, colorSoftWhite.g * 0.88, colorSoftWhite.b * 0.92)
+        }
       }
     }
 
@@ -189,12 +187,13 @@ export function InteractiveParticleGlobe({
       map: pointTexture,
       transparent: true,
       depthWrite: false,
+      depthTest: false,
       blending: THREE.AdditiveBlending,
       opacity: 0.95,
     })
 
     const particleGlobe = new THREE.Points(pointGeometry, pointMaterial)
-    globeGroup.add(particleGlobe)
+    particleGlobe.renderOrder = 2
 
     // ─── 2. Inner Atmosphere Dark Core Sphere ─────────────────
     const innerSphereGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.985, 48, 48)
@@ -202,36 +201,18 @@ export function InteractiveParticleGlobe({
       color: 0x08090d,
       transparent: true,
       opacity: 0.94,
+      depthWrite: false,
     })
     const innerSphere = new THREE.Mesh(innerSphereGeo, innerSphereMat)
+    innerSphere.renderOrder = 0
+
+    // Add inner dark core first, then particle globe so inner sphere never renders over particles
     globeGroup.add(innerSphere)
+    globeGroup.add(particleGlobe)
 
-    // ─── 3. Outer Glowing Atmosphere Rim ──────────────────────
-    const atmosphereGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 1.04, 32, 32)
-    const atmosphereMat = new THREE.ShaderMaterial({
-      vertexShader: `
-        varying vec3 vNormal;
-        void main() {
-          vNormal = normalize(normalMatrix * normal);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying vec3 vNormal;
-        void main() {
-          float intensity = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.2);
-          gl_FragColor = vec4(1.0, 0.35, 0.12, 1.0) * intensity * 0.85;
-        }
-      `,
-      blending: THREE.AdditiveBlending,
-      side: THREE.BackSide,
-      transparent: true,
-    })
-    const atmosphereMesh = new THREE.Mesh(atmosphereGeo, atmosphereMat)
-    globeGroup.add(atmosphereMesh)
-
-    // ─── 4. City Marker Pins & Pulsing Rings ───────────────────
+    // ─── 3. City Marker Pins & Pulsing Rings ───────────────────
     const markerGroup = new THREE.Group()
+    markerGroup.renderOrder = 4
     globeGroup.add(markerGroup)
 
     const markerPositions: THREE.Vector3[] = []
@@ -247,6 +228,7 @@ export function InteractiveParticleGlobe({
       })
       const pin = new THREE.Mesh(pinGeo, pinMat)
       pin.position.copy(pos)
+      pin.renderOrder = 4
       markerGroup.add(pin)
 
       // Outer Pulsing Ring
@@ -256,15 +238,18 @@ export function InteractiveParticleGlobe({
         side: THREE.DoubleSide,
         transparent: true,
         opacity: 0.8,
+        depthWrite: false,
       })
       const ring = new THREE.Mesh(ringGeo, ringMat)
       ring.position.copy(pos)
       ring.lookAt(pos.clone().multiplyScalar(2))
+      ring.renderOrder = 4
       markerGroup.add(ring)
     })
 
     // ─── 5. Curved Flight Arcs & Traveling Photons ────────────
     const arcGroup = new THREE.Group()
+    arcGroup.renderOrder = 5
     globeGroup.add(arcGroup)
 
     interface ArcData {
@@ -297,8 +282,10 @@ export function InteractiveParticleGlobe({
         transparent: true,
         opacity: 0.35,
         blending: THREE.AdditiveBlending,
+        depthWrite: false,
       })
       const line = new THREE.Line(arcGeo, arcMat)
+      line.renderOrder = 5
       arcGroup.add(line)
 
       // Traveling Photon Light Mesh
@@ -307,8 +294,10 @@ export function InteractiveParticleGlobe({
         color: 0xffffff,
         transparent: true,
         opacity: 0.95,
+        depthWrite: false,
       })
       const photon = new THREE.Mesh(photonGeo, photonMat)
+      photon.renderOrder = 5
       arcGroup.add(photon)
 
       arcs.push({
@@ -343,6 +332,7 @@ export function InteractiveParticleGlobe({
     })
     const bgPlane = new THREE.Mesh(bgPlaneGeo, bgPlaneMat)
     bgPlane.position.z = -2.5
+    bgPlane.renderOrder = -1
     scene.add(bgPlane)
 
     // Initial orientation: Center on India / Asia
@@ -435,13 +425,11 @@ export function InteractiveParticleGlobe({
         arc.photon.scale.set(scale, scale, scale)
       })
 
-      // Atmosphere pulse
-      const t = clock.getElapsedTime()
-      atmosphereMesh.scale.setScalar(1.0 + Math.sin(t * 1.5) * 0.008)
-
       renderer.render(scene, camera)
     }
 
+    // Synchronous first-frame render so complete particle globe is visible with zero delay
+    renderer.render(scene, camera)
     animate()
 
     // ─── 9. Responsive Resize Handler ─────────────────────────
@@ -462,9 +450,30 @@ export function InteractiveParticleGlobe({
       dom.removeEventListener('pointerdown', onPointerDown)
       window.removeEventListener('pointermove', onPointerMove)
       window.removeEventListener('pointerup', onPointerUp)
-      if (container && renderer.domElement) {
+      if (container && renderer.domElement && renderer.domElement.parentNode === container) {
         container.removeChild(renderer.domElement)
       }
+
+      pointGeometry.dispose()
+      pointMaterial.dispose()
+      pointTexture.dispose()
+      innerSphereGeo.dispose()
+      innerSphereMat.dispose()
+      bgPlaneGeo.dispose()
+      bgPlaneMat.dispose()
+      bgPattern.dispose()
+
+      globeGroup.traverse((obj) => {
+        if (obj instanceof THREE.Mesh || obj instanceof THREE.Line || obj instanceof THREE.Points) {
+          obj.geometry?.dispose()
+          if (Array.isArray(obj.material)) {
+            obj.material.forEach((m) => m.dispose())
+          } else if (obj.material) {
+            obj.material.dispose()
+          }
+        }
+      })
+
       renderer.dispose()
     }
   }, [height])

@@ -5,23 +5,16 @@ import { useEffect, useRef } from 'react'
 import { SiteHeader } from '@/components/site-header'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
-import { Capabilities, Stats, CertifiedOperations, Solutions, Voices, CTA, Footer } from '@/app/page'
+import { Capabilities, Stats, CertifiedOperations, Solutions, Voices, CTA, Footer, useScrollReveal } from '@/app/page'
 import type { Service } from '@/lib/site-data'
 
 export function ServiceDetailPage({ service }: { service: Service }) {
-  const pageRef = useRef<HTMLElement>(null)
-  useEffect(() => {
-    const root = pageRef.current
-    if (!root) return
-    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('is-visible')), { threshold: 0.12 })
-    root.querySelectorAll('[data-reveal]').forEach((element) => observer.observe(element))
-    return () => observer.disconnect()
-  }, [])
+  useScrollReveal()
 
   return (
     <>
       <SiteHeader />
-      <main ref={pageRef} className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
+      <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
         <section className="case-studies-hero-immersive" data-reveal>
           <div className="container case-hero-foreground">
             <div className="case-hero-content-left">
