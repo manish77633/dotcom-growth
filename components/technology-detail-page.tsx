@@ -94,7 +94,15 @@ export function TechnologyDetailPage({ technology }: { technology: Technology })
     ? '/assets/videos/marketing-automation-hero.mp4'
     : technology.slug === 'digital-transformation'
     ? '/assets/videos/digital-transformation-hero.mp4'
-    : undefined
+    : technology.slug === 'custom-software'
+    ? '/assets/videos/digital-transformation-hero.mp4'
+    : technology.slug === 'erp-implementation'
+    ? '/assets/videos/marketing-automation-hero.mp4'
+    : technology.slug === 'ai-development'
+    ? '/assets/videos/digital-transformation-hero.mp4'
+    : technology.slug === 'genetic-ai'
+    ? '/assets/videos/digital-transformation-hero.mp4'
+    : '/assets/videos/demand-generation-hero.mp4'
 
   return (
     <>

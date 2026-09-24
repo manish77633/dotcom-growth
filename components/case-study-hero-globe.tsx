@@ -113,16 +113,23 @@ export function CaseStudyHeroGlobe() {
     const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 1000)
     camera.position.set(0, 0, 5.0)
 
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance',
-      precision: 'mediump',
-    })
-    renderer.setSize(width, height)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))
-    renderer.setClearColor(0x000000, 0)
-    container.appendChild(renderer.domElement)
+    let renderer: THREE.WebGLRenderer
+    try {
+      renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        powerPreference: 'default',
+        precision: 'mediump',
+        failIfMajorPerformanceCaveat: false,
+      })
+      renderer.setSize(width, height)
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))
+      renderer.setClearColor(0x000000, 0)
+      container.appendChild(renderer.domElement)
+    } catch (e) {
+      console.warn('[CaseStudyHeroGlobe] WebGL initialization skipped or failed:', e)
+      return
+    }
 
     // Master Globe Pivot Group centered within its container
     const masterGroup = new THREE.Group()

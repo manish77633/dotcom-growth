@@ -78,13 +78,20 @@ function Header() { return <SiteHeader /> }
 
 export function useScrollReveal() {
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) {
+    const revealAll = () => {
       document.querySelectorAll<HTMLElement>('[data-reveal], .scroll-mask-reveal, .scroll-mask-reveal-rtl').forEach((el) => {
         el.classList.add('is-revealed')
       })
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) {
+      revealAll()
       return
     }
+
+    // Safety fallback timer: ensures all elements reveal if mobile observer is delayed
+    const fallbackTimer = setTimeout(revealAll, 600)
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -92,14 +99,14 @@ export function useScrollReveal() {
           if (entry.isIntersecting) {
             const el = entry.target as HTMLElement
             el.classList.add('is-revealed')
-            observer.unobserve(el) // One-way: once triggered, runs to completion and never reverses or replays
+            observer.unobserve(el)
           }
         })
       },
       {
         root: null,
-        rootMargin: '0px 0px -6% 0px',
-        threshold: 0.05,
+        rootMargin: '80px 0px 40px 0px',
+        threshold: 0.01,
       }
     )
 
@@ -111,6 +118,7 @@ export function useScrollReveal() {
 
     return () => {
       observer.disconnect()
+      clearTimeout(fallbackTimer)
     }
   }, [])
 }

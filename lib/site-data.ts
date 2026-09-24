@@ -87,6 +87,6 @@ export const caseStudies = [
   },
 ] as const
 
-export type Service = (typeof services)[number] & { label?: string; visualMark?: string; visualCaption?: string; heroVideo?: string; buildFor?: { title: string; description: string }; problems?: { title: string; description: string }[]; deliverables?: string[]; process?: { title: string; description: string }[]; technologies?: string[]; relatedCaseStudies?: { slug: string; type: string; title: string }[]; cta?: { eyebrow: string; title: string; description: string } }
+export type Service = (typeof services)[number] & { label?: string; visualMark?: string; visualCaption?: string; heroVideo?: string; heroDescription?: string; description?: string; buildFor?: { title: string; description: string }; problems?: { title: string; description: string }[]; deliverables?: string[]; process?: { title: string; description: string }[]; technologies?: string[]; relatedCaseStudies?: { slug: string; type: string; title: string }[]; cta?: { eyebrow: string; title: string; description: string } }
 export type Technology = (typeof technologies)[number]
 export type CaseStudy = (typeof caseStudies)[number]

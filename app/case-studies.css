@@ -195,11 +195,13 @@
 }
 
 .case-hero-content-left .lead-text {
-  font-size: 18px;
-  line-height: 1.55;
-  color: #c4d0df;
-  max-width: 540px;
+  font-size: 17.5px;
+  line-height: 1.65;
+  color: #9eb1c7;
+  max-width: 560px;
   margin-bottom: 34px;
+  letter-spacing: -0.01em;
+  font-weight: 400;
 }
 
 .case-hero-content-left .lead-text i {
@@ -210,13 +212,14 @@
 
 .has-service-hero-video .case-hero-content-left h1 {
   color: #ffffff !important;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.95) !important;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.95) !important;
 }
 
 .has-service-hero-video .case-hero-content-left .lead-text {
-  color: #ffffff !important;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.95) !important;
+  color: #9eb3c9 !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85), 0 1px 3px rgba(0, 0, 0, 0.9) !important;
   font-weight: 400 !important;
+  line-height: 1.65 !important;
 }
 
 .case-hero-actions {
@@ -408,7 +411,17 @@
 }
 
 /* ─── Tablet & Mobile Stacked Behavior (No Horizontal Overflow) ─── */
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
+  .case-editorial-row .case-editorial-media,
+  .case-editorial-row.row-reversed .case-editorial-media,
+  .case-editorial-row .case-editorial-content,
+  .case-editorial-row.row-reversed .case-editorial-content {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1024px) {
   .case-editorial-row .case-editorial-media,
   .case-editorial-row.row-reversed .case-editorial-media {
     transform: translateY(32px) scale(0.98);
@@ -423,12 +436,14 @@
   .case-editorial-row.row-reversed.is-in-view .case-editorial-media,
   .case-editorial-row.row-reversed.is-visible .case-editorial-media {
     transform: translateY(0) scale(1);
+    opacity: 1;
   }
   .case-editorial-row.is-in-view .case-editorial-content,
   .case-editorial-row.is-visible .case-editorial-content,
   .case-editorial-row.row-reversed.is-in-view .case-editorial-content,
   .case-editorial-row.row-reversed.is-visible .case-editorial-content {
     transform: translateY(0);
+    opacity: 1;
   }
 }
 

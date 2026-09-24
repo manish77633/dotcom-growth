@@ -11,23 +11,48 @@ export default function ServicesPage() {
     <>
       <SiteHeader />
       <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
-        {/* Immersive 3D WebGL Globe Hero Section */}
-        <section className="case-studies-hero-immersive">
+        {/* Immersive Hero Section with Background Video */}
+        <section className="case-studies-hero-immersive has-service-hero-video">
+          <div className="case-hero-video-bg" aria-hidden="true">
+            <video
+              src="/assets/videos/digital-transformation-hero.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="case-hero-video-bg-media"
+            >
+              <source src="/assets/videos/digital-transformation-hero.mp4" type="video/mp4" />
+            </video>
+            <div className="case-hero-video-overlay" />
+          </div>
+
           <div className="container case-hero-foreground">
             <div className="case-hero-content-left">
               <div className="case-hero-eyebrow-wrap">
                 <div className="eyebrow orange">COMMERCIAL CAPABILITIES</div>
               </div>
-
-              {/* 3D Interactive WebGL Globe */}
-              <CaseStudyHeroGlobe />
+              <div className="case-hero-video-mobile-card" aria-hidden="true">
+                <video
+                  src="/assets/videos/digital-transformation-hero.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="case-hero-video-mobile-media"
+                >
+                  <source src="/assets/videos/digital-transformation-hero.mp4" type="video/mp4" />
+                </video>
+              </div>
 
               <AnimatedHeroHeading as="h1">
                 Capabilities Engineered for<br />
                 <em>Compounding</em> <strong>Growth.</strong>
               </AnimatedHeroHeading>
               <p className="lead-text">
-                Specialist engineering and growth teams connecting commercial strategy, enterprise technology, and measurable revenue across global markets.
+                Specialist engineering and growth teams connecting commercial strategy, enterprise technology, and measurable revenue across global markets. We architect scalable systems that bridge the gap between complex digital operations and predictable, compounding commercial growth.
               </p>
 
               <div className="case-hero-actions">

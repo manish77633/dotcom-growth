@@ -102,11 +102,17 @@ export function InteractiveParticleGlobe({
     const camera = new THREE.PerspectiveCamera(42, width / canvasHeight, 0.1, 1000)
     camera.position.set(0, 0, 4.8)
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-    renderer.setSize(width, canvasHeight)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    renderer.setClearColor(0x000000, 0)
-    container.appendChild(renderer.domElement)
+    let renderer: THREE.WebGLRenderer
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, failIfMajorPerformanceCaveat: false, powerPreference: 'default' })
+      renderer.setSize(width, canvasHeight)
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+      renderer.setClearColor(0x000000, 0)
+      container.appendChild(renderer.domElement)
+    } catch (e) {
+      console.warn('[InteractiveParticleGlobe] WebGL not supported or failed to initialize:', e)
+      return
+    }
 
     // Master Globe Group
     const globeGroup = new THREE.Group()

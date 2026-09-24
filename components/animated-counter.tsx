@@ -114,6 +114,13 @@ export function AnimatedCounter({
       requestAnimationFrame(step)
     }
 
+    // Fallback timer: ensure counter always animates to final value even if observer doesn't trigger on mobile
+    const fallbackTimer = setTimeout(() => {
+      if (!hasAnimatedRef.current) {
+        startAnimation()
+      }
+    }, 500)
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -123,13 +130,14 @@ export function AnimatedCounter({
           }
         })
       },
-      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.01, rootMargin: '80px 0px 40px 0px' }
     )
 
     observer.observe(node)
 
     return () => {
       observer.disconnect()
+      clearTimeout(fallbackTimer)
     }
   }, [finalTarget, finalPrefix, finalSuffix, finalDecimals, duration, finalDisplay, isValid])
 

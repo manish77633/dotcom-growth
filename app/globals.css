@@ -2422,8 +2422,22 @@ footer b { display: block; font-size: 9px; letter-spacing: 1.5px; color: #fff; m
   }
 }
 
+@media (max-width: 900px) {
+  /* Progressive enhancement: On real mobile devices, content must be visible by default without relying on observer */
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .char-hero-letter {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .char-hero-letter { opacity: 1; transform: none; filter: none; transition: none; }
   .steps div { animation: none; }
   .brand-row { animation: none; }
   .chat { animation: none; }

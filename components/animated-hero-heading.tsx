@@ -58,7 +58,7 @@ export function AnimatedHeroHeading({
           }
         })
       },
-      { threshold: 0.05, rootMargin: '0px 0px 50px 0px' }
+      { threshold: 0.01, rootMargin: '50px 0px 50px 0px' }
     )
 
     observer.observe(node)

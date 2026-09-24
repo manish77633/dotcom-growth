@@ -41,6 +41,16 @@ function CaseStudyRow({
   const [inView, setInView] = useState(false)
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) {
+      setInView(true)
+      return
+    }
+
+    const fallbackTimer = setTimeout(() => {
+      setInView(true)
+    }, 450)
+
     const el = rowRef.current
     if (!el) return
 
@@ -52,13 +62,16 @@ function CaseStudyRow({
         }
       },
       {
-        threshold: 0.18,
-        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.01,
+        rootMargin: '100px 0px 50px 0px',
       }
     )
 
     observer.observe(el)
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      clearTimeout(fallbackTimer)
+    }
   }, [])
 
   return (
