@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { SiteHeader } from '@/components/site-header'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
+import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedCounter } from '@/components/animated-counter'
 import { Capabilities, Stats, CertifiedOperations, StrategicAdvantages, Solutions, Voices, CTA, Footer } from '@/app/page'
 
 export default function ServicesPage() {
@@ -20,10 +22,10 @@ export default function ServicesPage() {
               {/* 3D Interactive WebGL Globe */}
               <CaseStudyHeroGlobe />
 
-              <h1>
+              <AnimatedHeroHeading as="h1">
                 Capabilities Engineered for<br />
                 <em>Compounding</em> <strong>Growth.</strong>
-              </h1>
+              </AnimatedHeroHeading>
               <p className="lead-text">
                 Specialist engineering and growth teams connecting commercial strategy, enterprise technology, and measurable revenue across global markets.
               </p>
@@ -40,19 +42,19 @@ export default function ServicesPage() {
             {/* Seamless Inline Metrics */}
             <div className="case-hero-metrics-bar">
               <div className="inline-stat-item">
-                <strong>8+</strong>
+                <strong><AnimatedCounter value="8+" /></strong>
                 <span>Core Capabilities</span>
               </div>
               <div className="inline-stat-item">
-                <strong>350+</strong>
+                <strong><AnimatedCounter value="350+" /></strong>
                 <span>Engineers & Specialists</span>
               </div>
               <div className="inline-stat-item">
-                <strong>98.4%</strong>
+                <strong><AnimatedCounter value="98.4%" /></strong>
                 <span>Client Retention</span>
               </div>
               <div className="inline-stat-item">
-                <strong>$420M+</strong>
+                <strong><AnimatedCounter value="$420M+" /></strong>
                 <span>Generated Value</span>
               </div>
             </div>

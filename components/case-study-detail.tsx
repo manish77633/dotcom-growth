@@ -7,6 +7,8 @@ import { Footer } from '@/components/site-footer'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
 import { Stats, CertifiedOperations, StrategicAdvantages, Voices, CTA, useScrollReveal } from '@/app/page'
+import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedCounter } from '@/components/animated-counter'
 import type { CaseStudy } from '@/lib/site-data'
 
 const caseImages: Record<string, string> = {
@@ -98,7 +100,7 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
       <SiteHeader />
       <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
         {/* Immersive 3D Globe Hero Section */}
-        <section className="case-studies-hero-immersive" data-reveal>
+        <section className="case-studies-hero-immersive">
           <div className="container case-hero-foreground">
             <div className="case-hero-content-left">
               <div className="case-hero-eyebrow-wrap">
@@ -108,9 +110,12 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
               {/* 3D WebGL Globe */}
               <CaseStudyHeroGlobe />
 
-              <h1 style={{ fontSize: 'clamp(28px, 3vw, 42px)', lineHeight: 1.15, letterSpacing: '-1.2px', margin: '0 0 20px', fontWeight: 500 }}>
+              <AnimatedHeroHeading
+                as="h1"
+                style={{ fontSize: 'clamp(28px, 3vw, 42px)', lineHeight: 1.15, letterSpacing: '-1.2px', margin: '0 0 20px', fontWeight: 500 }}
+              >
                 {study.title}
-              </h1>
+              </AnimatedHeroHeading>
               <p className="lead-text">
                 {study.description}
               </p>
@@ -127,22 +132,22 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
               {/* Inline Metrics Bar */}
               <div className="case-hero-inline-stats">
                 <div className="inline-stat-item">
-                  <strong>{study.roi}</strong>
+                  <strong><AnimatedCounter value={study.roi} /></strong>
                   <span>{study.roiLabel}</span>
                 </div>
                 <div className="inline-stat-item">
-                  <strong>{study.metric}</strong>
+                  <strong><AnimatedCounter value={study.metric} /></strong>
                   <span>{study.metricLabel}</span>
                 </div>
                 {detail.results[0] && (
                   <div className="inline-stat-item">
-                    <strong>{detail.results[0].value}</strong>
+                    <strong><AnimatedCounter value={detail.results[0].value} /></strong>
                     <span>{detail.results[0].label}</span>
                   </div>
                 )}
                 {detail.results[1] && (
                   <div className="inline-stat-item">
-                    <strong>{detail.results[1].value}</strong>
+                    <strong><AnimatedCounter value={detail.results[1].value} /></strong>
                     <span>{detail.results[1].label}</span>
                   </div>
                 )}
@@ -211,16 +216,16 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 24 }}>
                 <div style={{ padding: '20px 24px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)' }}>
                   <span style={{ fontSize: 12, color: '#8c97a8', textTransform: 'uppercase', letterSpacing: 1, display: 'block', marginBottom: 6 }}>{study.roiLabel}</span>
-                  <strong style={{ fontSize: 36, color: 'var(--orange)', fontWeight: 600, letterSpacing: '-1px' }}>{study.roi}</strong>
+                  <strong style={{ fontSize: 36, color: 'var(--orange)', fontWeight: 600, letterSpacing: '-1px' }}><AnimatedCounter value={study.roi} /></strong>
                 </div>
                 <div style={{ padding: '20px 24px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)' }}>
                   <span style={{ fontSize: 12, color: '#8c97a8', textTransform: 'uppercase', letterSpacing: 1, display: 'block', marginBottom: 6 }}>{study.metricLabel}</span>
-                  <strong style={{ fontSize: 36, color: 'var(--orange)', fontWeight: 600, letterSpacing: '-1px' }}>{study.metric}</strong>
+                  <strong style={{ fontSize: 36, color: 'var(--orange)', fontWeight: 600, letterSpacing: '-1px' }}><AnimatedCounter value={study.metric} /></strong>
                 </div>
                 {detail.results.map((r) => (
                   <div key={r.label} style={{ padding: '20px 24px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)' }}>
                     <span style={{ fontSize: 12, color: '#8c97a8', textTransform: 'uppercase', letterSpacing: 1, display: 'block', marginBottom: 6 }}>{r.label}</span>
-                    <strong style={{ fontSize: 36, color: '#ffffff', fontWeight: 600, letterSpacing: '-1px' }}>{r.value}</strong>
+                    <strong style={{ fontSize: 36, color: '#ffffff', fontWeight: 600, letterSpacing: '-1px' }}><AnimatedCounter value={r.value} /></strong>
                   </div>
                 ))}
               </div>
@@ -243,7 +248,7 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
             <div className="benchmark-grid">
               <div className="benchmark-card" data-reveal>
                 <div className="dimension">Pipeline Velocity</div>
-                <strong>4.2× Faster</strong>
+                <strong><AnimatedCounter value="4.2× Faster" /></strong>
                 <p>Automated lead enrichment and instantaneous sales routing algorithms.</p>
                 <div className="comparison-row">
                   Industry Avg: <span>1.1×</span>
@@ -252,7 +257,7 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
 
               <div className="benchmark-card" data-reveal>
                 <div className="dimension">CAC Compression</div>
-                <strong>-54% Cost</strong>
+                <strong><AnimatedCounter value="-54% Cost" /></strong>
                 <p>Intent-driven audience clustering and deep server-side conversion API tracking.</p>
                 <div className="comparison-row">
                   Industry Avg: <span>-8%</span>
@@ -261,7 +266,7 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
 
               <div className="benchmark-card" data-reveal>
                 <div className="dimension">System Uptime</div>
-                <strong>99.99%</strong>
+                <strong><AnimatedCounter value="99.99%" /></strong>
                 <p>Enterprise microservices architecture with automated failover on AWS & Cloud.</p>
                 <div className="comparison-row">
                   Industry Avg: <span>99.2%</span>
@@ -270,7 +275,7 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
 
               <div className="benchmark-card" data-reveal>
                 <div className="dimension">Attribution Precision</div>
-                <strong>100% Deterministic</strong>
+                <strong><AnimatedCounter value="100% Deterministic" /></strong>
                 <p>Unified data warehouse with multi-touch pipeline attribution and CRM sync.</p>
                 <div className="comparison-row">
                   Industry Avg: <span>Estimated</span>

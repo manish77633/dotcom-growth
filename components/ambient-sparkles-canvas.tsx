@@ -49,10 +49,10 @@ export function AmbientSparklesCanvas({
 
     const stars: StarSparkle[] = []
     const starPalettes = [
-      '255, 255, 255', // Pure celestial white
-      '220, 235, 255', // Diamond icy starlight
-      '255, 105, 40',  // Cosmic orange
-      '255, 215, 160', // Warm golden starlight
+      '255, 90, 31',   // Brand orange
+      '255, 140, 60',  // Warm amber
+      '180, 195, 215', // Soft slate sparkle
+      '255, 120, 50',  // Golden orange
     ]
 
     const resize = () => {

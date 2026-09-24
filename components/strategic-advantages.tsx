@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { AnimatedCounter } from '@/components/animated-counter'
 
 export interface AdvantageTab {
   num: string
@@ -100,11 +101,11 @@ export function StrategicAdvantages() {
                   <div className="index-metrics">
                     <small>
                       P&amp;L CONTRIBUTION
-                      <strong>+$1.2M</strong>
+                      <strong><AnimatedCounter value="+$1.2M" /></strong>
                     </small>
                     <small>
                       EFFICIENCY
-                      <strong className="orange-stat">+240%</strong>
+                      <strong className="orange-stat"><AnimatedCounter value="+240%" /></strong>
                     </small>
                   </div>
                   <hr className="index-bar" />
@@ -183,11 +184,11 @@ export function StrategicAdvantages() {
                   <div className="index-metrics">
                     <small>
                       API LATENCY
-                      <strong>18ms</strong>
+                      <strong><AnimatedCounter value="18ms" /></strong>
                     </small>
                     <small>
                       CONCURRENT LOAD
-                      <strong className="orange-stat">500K+</strong>
+                      <strong className="orange-stat"><AnimatedCounter value="500K+" /></strong>
                     </small>
                   </div>
                   <hr className="index-bar" />
@@ -212,7 +213,7 @@ export function StrategicAdvantages() {
                     </small>
                     <small>
                       ON-TIME RATE
-                      <strong className="orange-stat">99.4%</strong>
+                      <strong className="orange-stat"><AnimatedCounter value="99.4%" /></strong>
                     </small>
                   </div>
                   <hr className="index-bar" />

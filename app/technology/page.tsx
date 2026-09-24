@@ -4,6 +4,8 @@ import { Footer } from '@/components/site-footer'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { AmbientSparklesCanvas } from '@/components/ambient-sparkles-canvas'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
+import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedCounter } from '@/components/animated-counter'
 import { technologies } from '@/lib/site-data'
 
 export default function TechnologyPage() {
@@ -22,10 +24,10 @@ export default function TechnologyPage() {
               {/* 3D Interactive WebGL Globe */}
               <CaseStudyHeroGlobe />
 
-              <h1>
+              <AnimatedHeroHeading as="h1">
                 The Technology Behind<br />
                 <em>Meaningful</em> <strong>Growth.</strong>
-              </h1>
+              </AnimatedHeroHeading>
               <p className="lead-text">
                 Certified delivery capability, hardened cloud systems, and custom software architectures that make commercial strategy operational.
               </p>
@@ -42,19 +44,19 @@ export default function TechnologyPage() {
             {/* Seamless Inline Metrics */}
             <div className="case-hero-metrics-bar">
               <div className="inline-stat-item">
-                <strong>100%</strong>
+                <strong><AnimatedCounter value="100%" /></strong>
                 <span>Certified Delivery</span>
               </div>
               <div className="inline-stat-item">
-                <strong>99.99%</strong>
+                <strong><AnimatedCounter value="99.99%" /></strong>
                 <span>System Uptime</span>
               </div>
               <div className="inline-stat-item">
-                <strong>50+</strong>
+                <strong><AnimatedCounter value="50+" /></strong>
                 <span>Enterprise Integrations</span>
               </div>
               <div className="inline-stat-item">
-                <strong>24/7</strong>
+                <strong><AnimatedCounter value="24/7" /></strong>
                 <span>SLA Support</span>
               </div>
             </div>

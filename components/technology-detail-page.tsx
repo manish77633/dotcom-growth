@@ -6,6 +6,7 @@ import { Footer } from '@/components/site-footer'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
 import { TrustedBrands, Stats, CertifiedOperations, StrategicAdvantages, Voices, CTA, useScrollReveal } from '@/app/page'
+import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
 import type { Technology } from '@/lib/site-data'
 
 const techDetails: Record<string, {
@@ -89,24 +90,63 @@ export function TechnologyDetailPage({ technology }: { technology: Technology })
     tools: ['Strategy', 'Analytics', 'Technology', 'Delivery', 'Optimisation'],
   }
 
+  const heroVideo = technology.slug === 'marketing-automation'
+    ? '/assets/videos/marketing-automation-hero.mp4'
+    : technology.slug === 'digital-transformation'
+    ? '/assets/videos/digital-transformation-hero.mp4'
+    : undefined
+
   return (
     <>
       <SiteHeader />
       <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
-        {/* Immersive 3D WebGL Globe Hero (Matching Case Studies) */}
-        <section className="case-studies-hero-immersive">
+        {/* Immersive Hero Section */}
+        <section className={`case-studies-hero-immersive ${heroVideo ? 'has-service-hero-video' : ''}`}>
+          {heroVideo && (
+            <div className="case-hero-video-bg" aria-hidden="true">
+              <video
+                src={heroVideo}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                className="case-hero-video-bg-media"
+              >
+                <source src={heroVideo} type="video/mp4" />
+              </video>
+              <div className="case-hero-video-overlay" />
+            </div>
+          )}
+
           <div className="container case-hero-foreground">
             <div className="case-hero-content-left">
               <div className="case-hero-eyebrow-wrap">
                 <div className="eyebrow orange">TECHNOLOGY SYSTEM</div>
               </div>
 
-              <CaseStudyHeroGlobe />
+              {heroVideo ? (
+                <div className="case-hero-video-mobile-card" aria-hidden="true">
+                  <video
+                    src={heroVideo}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="case-hero-video-mobile-media"
+                  >
+                    <source src={heroVideo} type="video/mp4" />
+                  </video>
+                </div>
+              ) : (
+                <CaseStudyHeroGlobe />
+              )}
 
-              <h1>
+              <AnimatedHeroHeading as="h1">
                 {technology.title}<br />
                 <em style={{ color: 'var(--orange)', fontFamily: 'Georgia, serif', fontStyle: 'italic', fontWeight: 400 }}>built for scale.</em>
-              </h1>
+              </AnimatedHeroHeading>
               <p className="lead-text">
                 {technology.description} We turn platform capability into a clear, measurable operating advantage.
               </p>

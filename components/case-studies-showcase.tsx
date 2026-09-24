@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { caseStudies } from '@/lib/site-data'
 import { AmbientSparklesCanvas } from './ambient-sparkles-canvas'
+import { AnimatedCounter } from '@/components/animated-counter'
 
 const caseImages: Record<string, string> = {
   'real-estate': 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&auto=format&fit=crop&q=85',
@@ -72,7 +73,7 @@ function CaseStudyRow({
           <div className="case-editorial-img-overlay" />
           <span className="case-editorial-category-badge">{study.category}</span>
           <div className="case-editorial-metric-chip">
-            <strong>{study.metric}</strong>
+            <strong><AnimatedCounter value={study.metric} /></strong>
             <small>{study.metricLabel}</small>
           </div>
         </Link>

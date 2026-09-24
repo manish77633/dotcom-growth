@@ -5,6 +5,8 @@ import { SiteHeader } from '@/components/site-header'
 import { CaseStudiesSection } from '@/components/case-studies-section'
 import { CapabilityAccordion } from '@/components/capability-accordion'
 import { StrategicAdvantages } from '@/components/strategic-advantages'
+import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedCounter } from '@/components/animated-counter'
 
 const services = [
   ['Marketing Automation', 'Streamlining lead lifecycles.', '⚡'],
@@ -79,59 +81,36 @@ export function useScrollReveal() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) {
       document.querySelectorAll<HTMLElement>('[data-reveal], .scroll-mask-reveal, .scroll-mask-reveal-rtl').forEach((el) => {
-        el.style.setProperty('--reveal-progress', '1')
         el.classList.add('is-revealed')
       })
       return
     }
 
-    // Monotonic progress map: progress only ever increases, NEVER decreases on scroll up
-    const elementProgressMap = new WeakMap<HTMLElement, number>()
-
-    let ticking = false
-    const updateScrollProgress = () => {
-      const elements = document.querySelectorAll<HTMLElement>('[data-reveal], .scroll-mask-reveal, .scroll-mask-reveal-rtl')
-      const windowHeight = window.innerHeight
-
-      elements.forEach((el) => {
-        // Permanently skip elements already fully revealed
-        if (el.classList.contains('is-revealed')) return
-
-        const currentMax = elementProgressMap.get(el) || 0
-        const rect = el.getBoundingClientRect()
-        // Balanced scroll range: smooth gradual reveal, slightly faster completion
-        const start = windowHeight * 0.90
-        const end = windowHeight * 0.20
-        const rawProgress = (start - rect.top) / (start - end)
-
-        // Strictly monotonic: can only increase, never decrease on scroll up
-        const newProgress = Math.max(currentMax, Math.min(1, Math.max(0, rawProgress)))
-        elementProgressMap.set(el, newProgress)
-
-        el.style.setProperty('--reveal-progress', newProgress.toFixed(3))
-
-        if (newProgress >= 0.97) {
-          el.style.setProperty('--reveal-progress', '1')
-          el.classList.add('is-revealed')
-        }
-      })
-      ticking = false
-    }
-
-    const onScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(updateScrollProgress)
-        ticking = true
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement
+            el.classList.add('is-revealed')
+            observer.unobserve(el) // One-way: once triggered, runs to completion and never reverses or replays
+          }
+        })
+      },
+      {
+        root: null,
+        rootMargin: '0px 0px -6% 0px',
+        threshold: 0.05,
       }
-    }
+    )
 
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll, { passive: true })
-    updateScrollProgress()
+    const elements = document.querySelectorAll<HTMLElement>('[data-reveal], .scroll-mask-reveal, .scroll-mask-reveal-rtl')
+    elements.forEach((el) => {
+      if (el.classList.contains('is-revealed')) return
+      observer.observe(el)
+    })
 
     return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
+      observer.disconnect()
     }
   }, [])
 }
@@ -214,15 +193,64 @@ function Hero() {
             </svg>
           </div>
 
-          <h1>
+          <AnimatedHeroHeading as="h1">
             Enterprise Scale.<br />
             <em>Agency Speed.</em><br />
             <strong>Revenue Focus.</strong>
-          </h1>
+          </AnimatedHeroHeading>
           <p>Growth That Shows Up in Your <i>Revenue.</i> Not Just Your Reports.</p>
           <div className="button-row">
             <a className="orange-button" href="#contact">TALK TO AN EXPERT</a>
             <a className="outline-button" href="#contact">SCHEDULE A CALL</a>
+          </div>
+
+          {/* Mobile Hero Stats Row — ONLY visible on Mobile */}
+          <div className="hero-mobile-stats-row">
+            <div className="hero-mobile-stat-item">
+              <span className="hero-mobile-stat-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 21h18" strokeWidth="1.4" strokeOpacity="0.3" />
+                  <path d="M3 3v18" strokeWidth="1.4" strokeOpacity="0.3" />
+                  <polyline points="18 8 12 14 8 10 3 15" strokeWidth="2" />
+                  <polyline points="13 8 18 8 18 13" strokeWidth="2" />
+                </svg>
+              </span>
+              <div className="hero-mobile-stat-text">
+                <strong><AnimatedCounter value="300+" /></strong>
+                <span>Projects Delivered</span>
+              </div>
+            </div>
+
+            <div className="hero-mobile-stat-divider" aria-hidden="true" />
+
+            <div className="hero-mobile-stat-item">
+              <span className="hero-mobile-stat-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+              </span>
+              <div className="hero-mobile-stat-text">
+                <strong><AnimatedCounter value="150+" /></strong>
+                <span>Happy Clients</span>
+              </div>
+            </div>
+
+            <div className="hero-mobile-stat-divider" aria-hidden="true" />
+
+            <div className="hero-mobile-stat-item">
+              <span className="hero-mobile-stat-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+              </span>
+              <div className="hero-mobile-stat-text">
+                <strong><AnimatedCounter value="4.9/5" /></strong>
+                <span>Client Satisfaction</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -290,7 +318,7 @@ export function Stats() {
         ].map(([label, number, copy], i) => (
           <article className={i === 2 ? 'featured-stat' : ''} key={label} data-reveal data-reveal-delay={String(i + 1)}>
             <div className="eyebrow orange">{label}</div>
-            <strong>{number}</strong>
+            <strong><AnimatedCounter value={number} /></strong>
             <p>{copy}</p>
           </article>
         ))}

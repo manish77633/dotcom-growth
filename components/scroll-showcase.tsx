@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { ScrollDataScene } from './three-scenes'
+import { AnimatedCounter } from '@/components/animated-counter'
 
 const stages = [
   {
@@ -126,7 +127,7 @@ export function ScrollShowcase() {
               <div className="stage-metrics-grid">
                 {current.metrics.map((m) => (
                   <div className="stage-metric-box" key={m.label}>
-                    <strong>{m.value}</strong>
+                    <strong><AnimatedCounter value={m.value} /></strong>
                     <span>{m.label}</span>
                   </div>
                 ))}

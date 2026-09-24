@@ -7,6 +7,8 @@ import { Footer } from '@/components/site-footer'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { CaseStudyCTAScene } from '@/components/case-study-hero-scene'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
+import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedCounter } from '@/components/animated-counter'
 import { TrustedBrands, Stats, CertifiedOperations, Voices, useScrollReveal } from '@/app/page'
 
 export default function CaseStudiesPage() {
@@ -15,7 +17,7 @@ export default function CaseStudiesPage() {
   return (
     <>
       <SiteHeader />
-      <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
+      <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#ffffff', color: '#111111' }}>
         {/* Hero Section with Full-Bleed 3D WebGL Globe in Background */}
         <section className="case-studies-hero-immersive">
           <div className="container case-hero-foreground">
@@ -27,10 +29,10 @@ export default function CaseStudiesPage() {
               {/* 3D Interactive WebGL Globe */}
               <CaseStudyHeroGlobe />
 
-              <h1>
+              <AnimatedHeroHeading as="h1">
                 Measurable Impact.<br />
                 <em>Delivered</em> <strong>At Scale.</strong>
-              </h1>
+              </AnimatedHeroHeading>
               <p className="lead-text">
                 Commercial technology infrastructure and digital growth systems that show up in your <i>revenue</i> — not just reports.
               </p>
@@ -39,27 +41,27 @@ export default function CaseStudiesPage() {
                 <a className="orange-button" href="#case-studies-list">
                   EXPLORE PORTFOLIO ↓
                 </a>
-                <a className="outline-button" href="#benchmarks" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>
+                <a className="outline-button" href="#benchmarks" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.25)' }}>
                   ROI BENCHMARKS
                 </a>
               </div>
 
-            {/* Seamless Inline Metrics (No card backgrounds) */}
+            {/* Seamless Inline Metrics */}
             <div className="case-hero-inline-stats">
               <div className="inline-stat-item">
-                <strong>$420M+</strong>
+                <strong><AnimatedCounter value="$420M+" /></strong>
                 <span>Client Pipeline Value</span>
               </div>
               <div className="inline-stat-item">
-                <strong>3.8×</strong>
+                <strong><AnimatedCounter value="3.8×" /></strong>
                 <span>Average ROAS Surge</span>
               </div>
               <div className="inline-stat-item">
-                <strong>98.4%</strong>
+                <strong><AnimatedCounter value="98.4%" /></strong>
                 <span>Enterprise Retention</span>
               </div>
               <div className="inline-stat-item">
-                <strong>350+</strong>
+                <strong><AnimatedCounter value="350+" /></strong>
                 <span>Engineers & Specialists</span>
               </div>
             </div>
@@ -67,25 +69,25 @@ export default function CaseStudiesPage() {
         </div>
       </section>
 
-      {/* Filterable Case Studies Showcase with Black Background & Sparkles */}
+      {/* Filterable Case Studies Showcase */}
       <CaseStudiesShowcase />
 
       {/* Quantified Transformation Benchmarks Section */}
       <section className="case-benchmark-section" id="benchmarks">
         <div className="container">
           <div className="eyebrow orange">MEASURABLE OUTCOMES</div>
-          <h2 style={{ fontSize: 'clamp(32px, 4vw, 52px)', letterSpacing: '-1.5px', marginTop: 14 }}>
+          <h2 style={{ fontSize: 'clamp(32px, 4vw, 52px)', letterSpacing: '-1.5px', marginTop: 14, color: '#111111' }}>
             How dotcomGrowth Compares to<br />
             <span style={{ color: 'var(--orange)' }}>Traditional Agency Generalists</span>
           </h2>
-          <p style={{ color: '#8f9db3', maxWidth: 540, marginTop: 12, fontSize: 16 }}>
+          <p style={{ color: '#556477', maxWidth: 540, marginTop: 12, fontSize: 16 }}>
             We replace siloed guesswork with unified engineering, precise attribution models, and full-funnel revenue architectures.
           </p>
 
           <div className="benchmark-grid">
             <div className="benchmark-card" data-reveal>
               <div className="dimension">Pipeline Velocity</div>
-              <strong>4.2× Faster</strong>
+              <strong><AnimatedCounter value="4.2× Faster" /></strong>
               <p>Automated lead enrichment and instantaneous sales routing algorithms.</p>
               <div className="comparison-row">
                 Industry Avg: <span>1.1×</span>
@@ -94,7 +96,7 @@ export default function CaseStudiesPage() {
 
             <div className="benchmark-card" data-reveal>
               <div className="dimension">CAC Compression</div>
-              <strong>-54% Cost</strong>
+              <strong><AnimatedCounter value="-54% Cost" /></strong>
               <p>Intent-driven audience clustering and deep server-side conversion API tracking.</p>
               <div className="comparison-row">
                 Industry Avg: <span>-8%</span>
@@ -103,7 +105,7 @@ export default function CaseStudiesPage() {
 
             <div className="benchmark-card" data-reveal>
               <div className="dimension">System Uptime</div>
-              <strong>99.99%</strong>
+              <strong><AnimatedCounter value="99.99%" /></strong>
               <p>Enterprise microservices architecture with automated failover on AWS & Cloud.</p>
               <div className="comparison-row">
                 Industry Avg: <span>99.2%</span>
@@ -112,7 +114,7 @@ export default function CaseStudiesPage() {
 
             <div className="benchmark-card" data-reveal>
               <div className="dimension">Attribution Precision</div>
-              <strong>100% Deterministic</strong>
+              <strong><AnimatedCounter value="100% Deterministic" /></strong>
               <p>Unified data warehouse with multi-touch pipeline attribution and CRM sync.</p>
               <div className="comparison-row">
                 Industry Avg: <span>Estimated</span>
@@ -126,11 +128,11 @@ export default function CaseStudiesPage() {
       <section className="case-industry-section">
         <div className="container">
           <div className="eyebrow orange">VERTICAL SPECIALIZATION</div>
-          <h2 style={{ fontSize: 'clamp(32px, 4vw, 50px)', letterSpacing: '-1.5px', marginTop: 14 }}>
+          <h2 style={{ fontSize: 'clamp(32px, 4vw, 50px)', letterSpacing: '-1.5px', marginTop: 14, color: '#111111' }}>
             Tailored Playbooks for<br />
             <span>High-Complexity Industries</span>
           </h2>
-          <p style={{ color: '#637184', maxWidth: 520, marginTop: 12, fontSize: 16 }}>
+          <p style={{ color: '#556477', maxWidth: 520, marginTop: 12, fontSize: 16 }}>
             Every vertical operates with distinct regulatory, technical, and commercial constraints. Our specialized hubs build custom systems designed for each domain.
           </p>
 
