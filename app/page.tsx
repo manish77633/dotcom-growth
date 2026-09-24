@@ -78,20 +78,13 @@ function Header() { return <SiteHeader /> }
 
 export function useScrollReveal() {
   useEffect(() => {
-    const revealAll = () => {
-      document.querySelectorAll<HTMLElement>('[data-reveal], .scroll-mask-reveal, .scroll-mask-reveal-rtl').forEach((el) => {
-        el.classList.add('is-revealed')
-      })
-    }
-
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) {
-      revealAll()
+      document.querySelectorAll<HTMLElement>('[data-reveal], .scroll-mask-reveal, .scroll-mask-reveal-rtl, .reveal-text').forEach((el) => {
+        el.classList.add('is-revealed')
+      })
       return
     }
-
-    // Safety fallback timer: ensures all elements reveal if mobile observer is delayed
-    const fallbackTimer = setTimeout(revealAll, 600)
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -99,18 +92,18 @@ export function useScrollReveal() {
           if (entry.isIntersecting) {
             const el = entry.target as HTMLElement
             el.classList.add('is-revealed')
-            observer.unobserve(el)
+            observer.unobserve(el) // Strict one-time: unobserve immediately so animation finishes independently and never replays
           }
         })
       },
       {
         root: null,
-        rootMargin: '80px 0px 40px 0px',
-        threshold: 0.01,
+        rootMargin: '0px 0px -5% 0px',
+        threshold: 0.15,
       }
     )
 
-    const elements = document.querySelectorAll<HTMLElement>('[data-reveal], .scroll-mask-reveal, .scroll-mask-reveal-rtl')
+    const elements = document.querySelectorAll<HTMLElement>('[data-reveal], .scroll-mask-reveal, .scroll-mask-reveal-rtl, .reveal-text')
     elements.forEach((el) => {
       if (el.classList.contains('is-revealed')) return
       observer.observe(el)
@@ -118,7 +111,6 @@ export function useScrollReveal() {
 
     return () => {
       observer.disconnect()
-      clearTimeout(fallbackTimer)
     }
   }, [])
 }
@@ -295,7 +287,9 @@ export function Capabilities() {
       <div className="container capabilities">
         <div className="section-intro" data-reveal>
           <div className="eyebrow orange">SERVICES SPECTRUM</div>
-          <h2>Capabilities<br />engineered for<br /><span>compounding growth</span></h2>
+          <AnimatedHeroHeading as="h2">
+            Capabilities<br />engineered for<br /><span>compounding growth</span>
+          </AnimatedHeroHeading>
           <p>Technology is only valuable when it creates measurable business outcomes. We engineer systems that directly impact operations, revenue, and growth.</p>
         </div>
         <div className="service-grid">
@@ -341,7 +335,9 @@ export function CertifiedOperations() {
       <div className="container">
         <div className="technology-header-block" data-reveal>
           <h3 className="tech-eyebrow-text">When growth requires more than marketing</h3>
-          <h2 className="tech-main-title" id="certified-title">We deliver the technology too.</h2>
+          <AnimatedHeroHeading as="h2" className="tech-main-title">
+            We deliver the technology too.
+          </AnimatedHeroHeading>
           <p className="tech-description-text">
             Our engineering team bridges the gap between commercial strategy &amp; deep technology execution, deploying certified development operations directly in alignment with your business goals.
           </p>
@@ -377,7 +373,9 @@ export function Voices() {
     <section className="voices">
       <div className="container">
         <div className="eyebrow orange">CLIENT ECHOES</div>
-        <h2>Voices of <span>transformation.</span></h2>
+        <AnimatedHeroHeading as="h2">
+          Voices of <span>transformation.</span>
+        </AnimatedHeroHeading>
       </div>
       <div className="testimonial-row">
         <article>
@@ -410,7 +408,9 @@ export function Solutions() {
     <section className="dark-section solutions" id="about">
       <div className="container">
         <div className="eyebrow orange">CORE SOLUTIONS</div>
-        <h2>Three specialized arenas.<br />Powered by dedicated experts.</h2>
+        <AnimatedHeroHeading as="h2">
+          Three specialized arenas.<br />Powered by dedicated experts.
+        </AnimatedHeroHeading>
         <p className="lead">We operate without generalists. Each division is staffed exclusively by veterans in that specific lane to deliver deep capability without dilution.</p>
         <div className="solution-grid">
           <article data-reveal>
@@ -445,7 +445,9 @@ export function CTA() {
       <div className="container">
         <div className="cta" id="contact">
           <div className="eyebrow orange">SCHEDULE A SESSION</div>
-          <h2>Ready to <span>engineer</span> your<br />growth?</h2>
+          <AnimatedHeroHeading as="h2">
+            Ready to <span>engineer</span> your<br />growth?
+          </AnimatedHeroHeading>
           <p>Select a time that works for you and let&apos;s discuss your scaling strategy.</p>
           <div className="calendar">
             <h3>Select a Date &amp; Time</h3>

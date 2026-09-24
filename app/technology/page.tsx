@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { SiteHeader } from '@/components/site-header'
 import { Footer } from '@/components/site-footer'
@@ -6,9 +8,11 @@ import { AmbientSparklesCanvas } from '@/components/ambient-sparkles-canvas'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
 import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
 import { AnimatedCounter } from '@/components/animated-counter'
+import { useScrollReveal } from '@/app/page'
 import { technologies } from '@/lib/site-data'
 
 export default function TechnologyPage() {
+  useScrollReveal()
   return (
     <>
       <SiteHeader />
@@ -71,10 +75,10 @@ export default function TechnologyPage() {
           <div className="case-section-header">
             <div>
               <div className="eyebrow orange">CORE PLATFORMS & FRAMEWORKS</div>
-              <h2>
+              <AnimatedHeroHeading as="h2">
                 Enterprise Technology.<br />
                 <span style={{ color: 'var(--orange)' }}>Engineered for Scale.</span>
-              </h2>
+              </AnimatedHeroHeading>
             </div>
             <p>
               High-performance stacks configured for maximum security, instantaneous pipeline velocity, and seamless multi-channel sync.

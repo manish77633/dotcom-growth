@@ -107,11 +107,11 @@ export function TechnologyDetailPage({ technology }: { technology: Technology })
   return (
     <>
       <SiteHeader />
-      <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
-        {/* Immersive Hero Section */}
-        <section className={`case-studies-hero-immersive ${heroVideo ? 'has-service-hero-video' : ''}`}>
-          {heroVideo && (
-            <div className="case-hero-video-bg" aria-hidden="true">
+      <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#ffffff', color: '#111111' }}>
+        {/* Full-Bleed Video Hero with Cinematic Dark Overlay */}
+        <section className="tech-hero-fullbleed">
+          {heroVideo ? (
+            <div className="tech-hero-video-bg" aria-hidden="true">
               <video
                 src={heroVideo}
                 autoPlay
@@ -119,92 +119,68 @@ export function TechnologyDetailPage({ technology }: { technology: Technology })
                 loop
                 playsInline
                 preload="metadata"
-                className="case-hero-video-bg-media"
+                className="tech-hero-video-media"
               >
                 <source src={heroVideo} type="video/mp4" />
               </video>
-              <div className="case-hero-video-overlay" />
+              <div className="tech-hero-video-overlay" />
+            </div>
+          ) : (
+            <div className="tech-hero-globe-wrap" aria-hidden="true">
+              <CaseStudyHeroGlobe />
+              <div className="tech-hero-video-overlay" />
             </div>
           )}
 
-          <div className="container case-hero-foreground">
-            <div className="case-hero-content-left">
-              <div className="case-hero-eyebrow-wrap">
+          <div className="container tech-hero-content-container">
+            <div className="tech-hero-main-content" data-reveal>
+              <div className="tech-hero-eyebrow-wrap">
                 <div className="eyebrow orange">TECHNOLOGY SYSTEM</div>
               </div>
 
-              {heroVideo ? (
-                <div className="case-hero-video-mobile-card" aria-hidden="true">
-                  <video
-                    src={heroVideo}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    className="case-hero-video-mobile-media"
-                  >
-                    <source src={heroVideo} type="video/mp4" />
-                  </video>
-                </div>
-              ) : (
-                <CaseStudyHeroGlobe />
-              )}
-
-              <AnimatedHeroHeading as="h1">
+              <AnimatedHeroHeading as="h1" className="tech-hero-title">
                 {technology.title}<br />
                 <em style={{ color: 'var(--orange)', fontFamily: 'Georgia, serif', fontStyle: 'italic', fontWeight: 400 }}>built for scale.</em>
               </AnimatedHeroHeading>
-              <p className="lead-text">
+              
+              <p className="tech-hero-description">
                 {technology.description} We turn platform capability into a clear, measurable operating advantage.
               </p>
-              <div className="case-hero-actions">
-                <Link className="orange-button" href="#technology-detail">SEE THE SYSTEM</Link>
-                <Link className="outline-button" href="/#contact" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>TALK TO AN EXPERT</Link>
+
+              <div className="tech-hero-actions">
+                <a className="orange-button" href="#tech-tools">SEE THE SYSTEM</a>
+                <Link className="outline-button" href="/#contact" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.25)' }}>TALK TO AN EXPERT</Link>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* What it enables */}
-        <section id="technology-detail" className="tech-enables-section">
-          <div className="container tech-enables-grid">
-            <div data-reveal className="tech-enables-copy">
-              <div className="eyebrow orange" style={{ marginBottom: 20 }}>WHAT IT ENABLES</div>
-              <h2>
-                Technology that makes the next move clearer.
-              </h2>
-              <p>
-                We don&apos;t implement technology for its own sake. Every system we build is mapped to a commercial goal and measured against it.
-              </p>
-            </div>
-            <div className="tech-enables-points">
+            {/* 3 Supporting Points Directly Integrated in Hero */}
+            <div className="tech-hero-points-grid" data-reveal>
               {detail.points.map((pt, i) => (
-                <div key={pt.title} data-reveal data-reveal-delay={String(i + 1)} className="tech-enable-point-item">
-                  <b>0{i + 1}</b>
-                  <h3>{pt.title}</h3>
-                  <p>{pt.body}</p>
+                <div key={pt.title} className="tech-hero-point-item">
+                  <span className="tech-hero-point-num">0{i + 1}</span>
+                  <h3 className="tech-hero-point-title">{pt.title}</h3>
+                  <p className="tech-hero-point-body">{pt.body}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Tools & Tech */}
-        <section style={{ background: '#000000', color: '#fff', padding: '100px 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        {/* Tools & Platforms */}
+        <section id="tech-tools" className="tech-platforms-section">
           <div className="container">
-            <div className="eyebrow orange" style={{ marginBottom: 24 }}>TOOLS & PLATFORMS</div>
-            <h2 style={{ fontSize: 'clamp(36px,4.5vw,56px)', lineHeight: 1.05, letterSpacing: '-2px', marginBottom: 16, fontWeight: 500, maxWidth: 600 }}>
+            <div className="eyebrow orange" style={{ marginBottom: 20 }}>TOOLS & PLATFORMS</div>
+            <AnimatedHeroHeading as="h2" style={{ fontSize: 'clamp(32px, 4vw, 52px)', lineHeight: 1.1, letterSpacing: '-1.5px', marginBottom: 16, fontWeight: 500, maxWidth: 640, color: '#111111' }}>
               The platforms behind the system.
-            </h2>
-            <p style={{ color: '#8a94a6', fontSize: 17, marginBottom: 48, maxWidth: 500 }}>
+            </AnimatedHeroHeading>
+            <p style={{ color: '#556477', fontSize: 16.5, marginBottom: 44, maxWidth: 540, lineHeight: 1.6 }}>
               We are platform-agnostic — we select tools that fit your context, not the ones we prefer.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
               {detail.tools.map(tool => (
-                <span key={tool} style={{ padding: '14px 24px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 100, background: 'rgba(255,255,255,0.04)', fontSize: 15, color: '#d0d4dc', transition: 'border-color 0.2s, color 0.2s', cursor: 'default' }}
-                  onMouseEnter={e => { (e.target as HTMLElement).style.borderColor = 'var(--orange)'; (e.target as HTMLElement).style.color = 'var(--orange)' }}
-                  onMouseLeave={e => { (e.target as HTMLElement).style.borderColor = 'rgba(255,255,255,0.12)'; (e.target as HTMLElement).style.color = '#d0d4dc' }}
+                <span
+                  key={tool}
+                  className="tech-tool-pill"
                 >
                   {tool}
                 </span>

@@ -1,10 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { SiteHeader } from '@/components/site-header'
 import { Footer } from '@/components/site-footer'
-import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
 import { Stats, CertifiedOperations, StrategicAdvantages, Voices, CTA, useScrollReveal } from '@/app/page'
 import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
@@ -98,59 +96,56 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
   return (
     <>
       <SiteHeader />
-      <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#000000', color: '#ffffff' }}>
-        {/* Immersive 3D Globe Hero Section */}
-        <section className="case-studies-hero-immersive">
-          <div className="container case-hero-foreground">
-            <div className="case-hero-content-left">
-              <div className="case-hero-eyebrow-wrap">
-                <div className="eyebrow orange">{study.category?.toUpperCase() || 'GROWTH CASE STUDY'}</div>
-              </div>
-
-              {/* 3D WebGL Globe */}
-              <CaseStudyHeroGlobe />
-
-              <AnimatedHeroHeading
-                as="h1"
-                style={{ fontSize: 'clamp(28px, 3vw, 42px)', lineHeight: 1.15, letterSpacing: '-1.2px', margin: '0 0 20px', fontWeight: 500 }}
-              >
+      <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#07080b', color: '#ffffff' }}>
+        {/* Premium White-Theme 2-Column Hero */}
+        <section className="case-detail-hero-white">
+          <div className="container case-detail-hero-grid">
+            {/* Left Column: Title, Description, Metrics */}
+            <div className="case-detail-hero-content" data-reveal>
+              <AnimatedHeroHeading as="h1" className="case-detail-hero-title">
                 {study.title}
               </AnimatedHeroHeading>
-              <p className="lead-text">
+              
+              <p className="case-detail-hero-desc">
                 {study.description}
               </p>
 
-              <div className="case-hero-actions">
-                <a className="orange-button" href="#case-study-narrative">
-                  EXPLORE CASE STUDY ↓
-                </a>
-                <Link className="outline-button" href="/#contact" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>
-                  TALK TO AN EXPERT
-                </Link>
-              </div>
+              {/* Metrics Horizontal Strip */}
+              <div className="case-detail-metrics-strip">
+                <div className="case-detail-metric-card">
+                  <strong className="case-detail-metric-val">
+                    <AnimatedCounter value={study.roi} />
+                  </strong>
+                  <span className="case-detail-metric-lbl">{study.roiLabel}</span>
+                </div>
 
-              {/* Inline Metrics Bar */}
-              <div className="case-hero-inline-stats">
-                <div className="inline-stat-item">
-                  <strong><AnimatedCounter value={study.roi} /></strong>
-                  <span>{study.roiLabel}</span>
+                <div className="case-detail-metric-sep" />
+
+                <div className="case-detail-metric-card">
+                  <strong className="case-detail-metric-val">
+                    <AnimatedCounter value={study.metric} />
+                  </strong>
+                  <span className="case-detail-metric-lbl">{study.metricLabel}</span>
                 </div>
-                <div className="inline-stat-item">
-                  <strong><AnimatedCounter value={study.metric} /></strong>
-                  <span>{study.metricLabel}</span>
-                </div>
+
                 {detail.results[0] && (
-                  <div className="inline-stat-item">
-                    <strong><AnimatedCounter value={detail.results[0].value} /></strong>
-                    <span>{detail.results[0].label}</span>
-                  </div>
+                  <>
+                    <div className="case-detail-metric-sep" />
+                    <div className="case-detail-metric-card">
+                      <strong className="case-detail-metric-val" style={{ color: '#111111' }}>
+                        <AnimatedCounter value={detail.results[0].value} />
+                      </strong>
+                      <span className="case-detail-metric-lbl">{detail.results[0].label}</span>
+                    </div>
+                  </>
                 )}
-                {detail.results[1] && (
-                  <div className="inline-stat-item">
-                    <strong><AnimatedCounter value={detail.results[1].value} /></strong>
-                    <span>{detail.results[1].label}</span>
-                  </div>
-                )}
+              </div>
+            </div>
+
+            {/* Right Column: Hero Visual Image */}
+            <div className="case-detail-hero-visual" data-reveal>
+              <div className="case-detail-hero-img-box">
+                <img src={img} alt={study.title} />
               </div>
             </div>
           </div>
@@ -159,30 +154,6 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
         {/* Deep Dive Case Study Narrative */}
         <section id="case-study-narrative" style={{ background: '#07080b', color: '#ffffff', padding: '80px 0 100px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="container">
-            {/* Clean Featured Project Image Visual (No text overlay) */}
-            <div data-reveal style={{ position: 'relative', width: '100%', height: 'clamp(260px, 45vw, 540px)', borderRadius: 28, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', marginBottom: 36, boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }}>
-              <img src={img} alt={study.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-            </div>
-
-            {/* Project Header Info (Cleanly Below Image) */}
-            <div data-reveal style={{ marginBottom: 48 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14, marginBottom: 16 }}>
-                <div className="eyebrow orange" style={{ margin: 0 }}>{study.category?.toUpperCase()}</div>
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  {study.tags?.map((tag) => (
-                    <span key={tag} style={{ background: 'rgba(255,255,255,0.06)', color: '#c0c8d4', padding: '6px 14px', borderRadius: 999, fontSize: 12, fontWeight: 500, border: '1px solid rgba(255,255,255,0.12)' }}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <h2 style={{ fontSize: 'clamp(26px, 4vw, 46px)', fontWeight: 500, color: '#ffffff', margin: '0 0 16px', letterSpacing: '-1.5px', lineHeight: 1.12 }}>
-                {study.title}
-              </h2>
-              <p style={{ color: '#a0acbe', fontSize: 17, lineHeight: 1.6, margin: 0, maxWidth: 840 }}>
-                {study.description}
-              </p>
-            </div>
 
             {/* Challenge & Approach 2-Column Grid */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32, marginBottom: 56 }}>
@@ -237,10 +208,10 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
         <section className="case-benchmark-section" id="benchmarks">
           <div className="container">
             <div className="eyebrow orange">MEASURABLE OUTCOMES</div>
-            <h2 style={{ fontSize: 'clamp(32px, 4vw, 52px)', letterSpacing: '-1.5px', marginTop: 14 }}>
+            <AnimatedHeroHeading as="h2" style={{ fontSize: 'clamp(32px, 4vw, 52px)', letterSpacing: '-1.5px', marginTop: 14 }}>
               How dotcomGrowth Compares to<br />
               <span style={{ color: 'var(--orange)' }}>Traditional Agency Generalists</span>
-            </h2>
+            </AnimatedHeroHeading>
             <p style={{ color: '#8f9db3', maxWidth: 540, marginTop: 12, fontSize: 16 }}>
               We replace siloed guesswork with unified engineering, precise attribution models, and full-funnel revenue architectures.
             </p>

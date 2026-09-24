@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { AnimatedCounter } from '@/components/animated-counter'
+import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
 
 export interface AdvantageTab {
   num: string
@@ -47,10 +48,10 @@ export function StrategicAdvantages() {
     <section className="advantages" id="advantages" aria-label="Strategic Advantages">
       <div className="container">
         <div className="eyebrow orange">STRATEGIC ADVANTAGES</div>
-        <h2>
+        <AnimatedHeroHeading as="h2">
           Design built for.<br />
           <span>Commercial impact.</span>
-        </h2>
+        </AnimatedHeroHeading>
 
         <div className="advantage-layout">
           {/* Left Tabs List */}

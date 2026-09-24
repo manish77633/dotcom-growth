@@ -48,29 +48,23 @@ export function AnimatedHeroHeading({
     const node = headingRef.current
     if (!node) return
 
-    // IntersectionObserver triggers automatically when heading is in viewport
+    // IntersectionObserver triggers automatically when heading enters viewport
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsSettled(true)
-            observer.disconnect()
+            observer.disconnect() // Strict one-time unobserve
           }
         })
       },
-      { threshold: 0.01, rootMargin: '50px 0px 50px 0px' }
+      { threshold: 0.15, rootMargin: '0px 0px -5% 0px' }
     )
 
     observer.observe(node)
 
-    // Fallback timer to ensure settling runs even if observer fails
-    const timer = setTimeout(() => {
-      setIsSettled(true)
-    }, 150)
-
     return () => {
       observer.disconnect()
-      clearTimeout(timer)
     }
   }, [])
 

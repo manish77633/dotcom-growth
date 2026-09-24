@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
 
 export type CaseStudyItem = {
   slug: string
@@ -64,10 +65,10 @@ export function CaseStudiesSection({
         <header className="case-showcase-header" data-reveal>
           <div className="case-showcase-title-wrap">
             <span className="case-proven-badge">PROVEN CASE STUDIES</span>
-            <h2>
+            <AnimatedHeroHeading as="h2">
               Measurable impact,<br />
               delivered at scale.
-            </h2>
+            </AnimatedHeroHeading>
           </div>
           <p className="case-showcase-lead">
             What we have delivered across different verticals.<br />

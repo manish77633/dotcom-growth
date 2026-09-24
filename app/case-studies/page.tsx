@@ -20,14 +20,14 @@ export default function CaseStudiesPage() {
       <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#ffffff', color: '#111111' }}>
         {/* Hero Section with Full-Bleed 3D WebGL Globe in Background */}
         <section className="case-studies-hero-immersive">
+          {/* 3D Interactive WebGL Globe on the right */}
+          <CaseStudyHeroGlobe />
+
           <div className="container case-hero-foreground">
             <div className="case-hero-content-left">
               <div className="case-hero-eyebrow-wrap">
                 <div className="eyebrow orange">PROVEN REVENUE IMPACT</div>
               </div>
-
-              {/* 3D Interactive WebGL Globe */}
-              <CaseStudyHeroGlobe />
 
               <AnimatedHeroHeading as="h1">
                 Measurable Impact.<br />
@@ -76,10 +76,10 @@ export default function CaseStudiesPage() {
       <section className="case-benchmark-section" id="benchmarks">
         <div className="container">
           <div className="eyebrow orange">MEASURABLE OUTCOMES</div>
-          <h2 style={{ fontSize: 'clamp(32px, 4vw, 52px)', letterSpacing: '-1.5px', marginTop: 14, color: '#111111' }}>
+          <AnimatedHeroHeading as="h2" style={{ fontSize: 'clamp(32px, 4vw, 52px)', letterSpacing: '-1.5px', marginTop: 14, color: '#111111' }}>
             How dotcomGrowth Compares to<br />
             <span style={{ color: 'var(--orange)' }}>Traditional Agency Generalists</span>
-          </h2>
+          </AnimatedHeroHeading>
           <p style={{ color: '#556477', maxWidth: 540, marginTop: 12, fontSize: 16 }}>
             We replace siloed guesswork with unified engineering, precise attribution models, and full-funnel revenue architectures.
           </p>
@@ -128,10 +128,10 @@ export default function CaseStudiesPage() {
       <section className="case-industry-section">
         <div className="container">
           <div className="eyebrow orange">VERTICAL SPECIALIZATION</div>
-          <h2 style={{ fontSize: 'clamp(32px, 4vw, 50px)', letterSpacing: '-1.5px', marginTop: 14, color: '#111111' }}>
+          <AnimatedHeroHeading as="h2" style={{ fontSize: 'clamp(32px, 4vw, 50px)', letterSpacing: '-1.5px', marginTop: 14, color: '#111111' }}>
             Tailored Playbooks for<br />
             <span>High-Complexity Industries</span>
-          </h2>
+          </AnimatedHeroHeading>
           <p style={{ color: '#556477', maxWidth: 520, marginTop: 12, fontSize: 16 }}>
             Every vertical operates with distinct regulatory, technical, and commercial constraints. Our specialized hubs build custom systems designed for each domain.
           </p>
@@ -188,10 +188,10 @@ export default function CaseStudiesPage() {
           <div className="case-cta-card">
             <div className="case-cta-content">
               <div className="eyebrow orange">COMMENCE TRANSFORMATION</div>
-              <h2>
+              <AnimatedHeroHeading as="h2">
                 Ready to engineer your next<br />
                 <span>exponential growth chapter?</span>
-              </h2>
+              </AnimatedHeroHeading>
               <p>
                 Schedule an executive discovery session with our commercial architects. We will analyze your tech stack and map an actionable growth index for your business.
               </p>

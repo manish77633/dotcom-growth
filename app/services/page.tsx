@@ -1,12 +1,15 @@
+'use client'
+
 import Link from 'next/link'
 import { SiteHeader } from '@/components/site-header'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
 import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
 import { AnimatedCounter } from '@/components/animated-counter'
-import { Capabilities, Stats, CertifiedOperations, StrategicAdvantages, Solutions, Voices, CTA, Footer } from '@/app/page'
+import { Capabilities, Stats, CertifiedOperations, StrategicAdvantages, Solutions, Voices, CTA, Footer, useScrollReveal } from '@/app/page'
 
 export default function ServicesPage() {
+  useScrollReveal()
   return (
     <>
       <SiteHeader />
