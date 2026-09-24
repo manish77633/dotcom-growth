@@ -81,7 +81,12 @@ export function SiteHeader() {
         <nav className={`shared-nav ${menuOpen ? 'mobile-open' : ''}`}>
           <Link href="/" onClick={closeMenu}>Home</Link>
 
-          <div className="nav-dropdown" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="nav-dropdown"
+            onMouseEnter={() => setOpen('services')}
+            onMouseLeave={() => setOpen(null)}
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               type="button"
               aria-haspopup="true"
@@ -107,7 +112,12 @@ export function SiteHeader() {
 
           <Link href="/case-studies" onClick={closeMenu}>Case Studies</Link>
 
-          <div className="nav-dropdown" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="nav-dropdown"
+            onMouseEnter={() => setOpen('technology')}
+            onMouseLeave={() => setOpen(null)}
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               type="button"
               aria-haspopup="true"

@@ -103,8 +103,8 @@ export function CaseStudyHeroGlobe() {
     if (!container) return
 
     const isMobile = window.innerWidth <= 900
-    let width = container.clientWidth || (isMobile ? 290 : Math.round(window.innerWidth * 0.55))
-    let height = container.clientHeight || (isMobile ? 210 : 740)
+    let width = container.clientWidth || (isMobile ? 290 : Math.min(Math.round(window.innerWidth * 0.42), 580))
+    let height = container.clientHeight || (isMobile ? 210 : width)
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -421,8 +421,8 @@ export function CaseStudyHeroGlobe() {
     const handleResize = () => {
       if (!container) return
       const isMob = window.innerWidth <= 900
-      width = container.clientWidth || (isMob ? 290 : Math.round(window.innerWidth * 0.55))
-      height = container.clientHeight || (isMob ? 210 : 740)
+      width = container.clientWidth || (isMob ? 290 : Math.min(Math.round(window.innerWidth * 0.42), 580))
+      height = container.clientHeight || (isMob ? 210 : width)
       camera.aspect = width / height
       camera.position.set(0, 0, 5.0)
       masterGroup.position.set(0, 0, 0)

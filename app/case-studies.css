@@ -68,42 +68,65 @@
 
 /* Desktop: left text, right globe — identical structure to home hero */
 @media (min-width: 901px) {
+  /* Desktop: left text, right globe — identical structure to home hero */
   .case-studies-hero-immersive {
     padding: 130px 0 100px !important;
     min-height: 740px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
   }
 
   /* The container div stays normal flow — text lives inside it */
   .case-hero-foreground {
     width: 100% !important;
     pointer-events: auto !important;
-    position: relative !important;
+    position: static !important;
     z-index: 5 !important;
   }
 
   /* Text column occupies only the left ~48% */
   .case-hero-content-left {
-    position: relative !important;
+    position: static !important;
     width: 48% !important;
-    max-width: 600px !important;
+    max-width: 530px !important;
     z-index: 6 !important;
     flex-shrink: 0 !important;
   }
 
-  /* Globe canvas: absolutely fills the right 55% of the SECTION (not container) */
+  /* Globe canvas: anchored on the RIGHT side of the hero section on Desktop */
   .case-hero-globe-canvas-wrap {
     position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    left: 45% !important;
-    width: 55% !important;
-    max-width: none !important;
-    height: 100% !important;
-    z-index: 1 !important;
+    top: 50% !important;
+    right: clamp(24px, 4.5vw, 80px) !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: translateY(-50%) !important;
+    width: clamp(400px, 42vw, 600px) !important;
+    height: clamp(400px, 42vw, 600px) !important;
+    max-width: 600px !important;
+    max-height: 600px !important;
+    z-index: 2 !important;
     pointer-events: none !important;
     overflow: hidden !important;
-    transform: none !important;
+    display: block !important;
+  }
+
+  @media (max-width: 1200px) {
+    .case-hero-content-left {
+      width: 50% !important;
+      max-width: 460px !important;
+    }
+    .case-hero-content-left h1 {
+      font-size: clamp(34px, 4vw, 48px) !important;
+      letter-spacing: -1.5px !important;
+    }
+    .case-hero-globe-canvas-wrap {
+      width: clamp(360px, 38vw, 460px) !important;
+      height: clamp(360px, 38vw, 460px) !important;
+      right: 20px !important;
+    }
   }
 
   /* Service Hero Video: Full background on Desktop */
@@ -1001,6 +1024,11 @@
     order: 2 !important;
     position: relative !important;
     inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
     width: 100% !important;
     max-width: 290px !important;
     height: 210px !important;
