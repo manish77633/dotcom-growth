@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedHeroHeading, RevealHeading } from '@/components/reveal-heading'
 
 export type CaseStudyItem = {
   slug: string
@@ -97,7 +97,7 @@ export function CaseStudiesSection({
                 </div>
 
                 <div className="case-card-body">
-                  <h3 className="case-card-title">{study.title}</h3>
+                  <RevealHeading as="h3" className="case-card-title">{study.title}</RevealHeading>
 
                   {study.tags && study.tags.length > 0 && (
                     <div className="case-card-tags">

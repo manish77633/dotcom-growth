@@ -6,7 +6,7 @@ import { Footer } from '@/components/site-footer'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { AmbientSparklesCanvas } from '@/components/ambient-sparkles-canvas'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
-import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedHeroHeading, RevealHeading } from '@/components/reveal-heading'
 import { AnimatedCounter } from '@/components/animated-counter'
 import { useScrollReveal } from '@/app/page'
 import { technologies } from '@/lib/site-data'
@@ -96,7 +96,7 @@ export default function TechnologyPage() {
                   <span className="tech-card-arrow">↗</span>
                   <span className="tech-card-tag">CERTIFIED STACK</span>
                 </div>
-                <h2>{technology.title}</h2>
+                <RevealHeading as="h2">{technology.title}</RevealHeading>
                 <p>{technology.description}</p>
                 <div className="tech-card-footer">
                   <span>Explore Architecture →</span>

@@ -7,7 +7,7 @@ import { Footer } from '@/components/site-footer'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { CaseStudyCTAScene } from '@/components/case-study-hero-scene'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
-import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedHeroHeading, RevealHeading } from '@/components/reveal-heading'
 import { AnimatedCounter } from '@/components/animated-counter'
 import { TrustedBrands, Stats, CertifiedOperations, Voices, useScrollReveal } from '@/app/page'
 
@@ -20,14 +20,14 @@ export default function CaseStudiesPage() {
       <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#ffffff', color: '#111111' }}>
         {/* Hero Section with Full-Bleed 3D WebGL Globe in Background */}
         <section className="case-studies-hero-immersive">
-          {/* 3D Interactive WebGL Globe on the right */}
-          <CaseStudyHeroGlobe />
-
           <div className="container case-hero-foreground">
             <div className="case-hero-content-left">
               <div className="case-hero-eyebrow-wrap">
                 <div className="eyebrow orange">PROVEN REVENUE IMPACT</div>
               </div>
+
+              {/* 3D Interactive WebGL Globe */}
+              <CaseStudyHeroGlobe />
 
               <AnimatedHeroHeading as="h1">
                 Measurable Impact.<br />
@@ -139,7 +139,7 @@ export default function CaseStudiesPage() {
           <div className="industry-cards-grid">
             <div className="industry-card" data-reveal>
               <div className="industry-icon">🏢</div>
-              <h3>PropTech & Real Estate</h3>
+              <RevealHeading as="h3">PropTech &amp; Real Estate</RevealHeading>
               <p>Multi-brokerage CRM unification, automated property lead syndication, and geo-targeted digital acquisition.</p>
               <ul>
                 <li>Automated Agent Lead Distribution</li>
@@ -150,18 +150,18 @@ export default function CaseStudiesPage() {
 
             <div className="industry-card" data-reveal>
               <div className="industry-icon">🛍️</div>
-              <h3>High-Volume E-Commerce</h3>
+              <RevealHeading as="h3">High-Volume E-Commerce</RevealHeading>
               <p>Conversion rate optimization, multi-channel marketplace scaling, and real-time inventory feed automation.</p>
               <ul>
                 <li>Sub-second Headless Checkout</li>
-                <li>Dynamic Retention & Loyalty Loops</li>
+                <li>Dynamic Retention &amp; Loyalty Loops</li>
                 <li>Omnichannel Margin Attribution</li>
               </ul>
             </div>
 
             <div className="industry-card" data-reveal>
               <div className="industry-icon">⚡</div>
-              <h3>B2B Enterprise SaaS</h3>
+              <RevealHeading as="h3">B2B Enterprise SaaS</RevealHeading>
               <p>Account-based marketing infrastructure, product-led growth analytics, and sales pipeline acceleration.</p>
               <ul>
                 <li>HubSpot / Salesforce Deep Bi-directional Sync</li>

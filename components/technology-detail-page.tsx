@@ -6,7 +6,7 @@ import { Footer } from '@/components/site-footer'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
 import { TrustedBrands, Stats, CertifiedOperations, StrategicAdvantages, Voices, CTA, useScrollReveal } from '@/app/page'
-import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedHeroHeading, RevealHeading } from '@/components/reveal-heading'
 import type { Technology } from '@/lib/site-data'
 
 const techDetails: Record<string, {
@@ -158,7 +158,7 @@ export function TechnologyDetailPage({ technology }: { technology: Technology })
               {detail.points.map((pt, i) => (
                 <div key={pt.title} className="tech-hero-point-item">
                   <span className="tech-hero-point-num">0{i + 1}</span>
-                  <h3 className="tech-hero-point-title">{pt.title}</h3>
+                  <RevealHeading as="h3" className="tech-hero-point-title">{pt.title}</RevealHeading>
                   <p className="tech-hero-point-body">{pt.body}</p>
                 </div>
               ))}

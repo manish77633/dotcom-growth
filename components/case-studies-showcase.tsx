@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { caseStudies } from '@/lib/site-data'
 import { AmbientSparklesCanvas } from './ambient-sparkles-canvas'
-import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedHeroHeading, RevealHeading } from '@/components/reveal-heading'
 
 const caseImages: Record<string, string> = {
   'edtech-growth': 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=1200&auto=format&fit=crop&q=85',
@@ -54,7 +54,7 @@ function CaseStudyCard({
       <div className="case-study-card-content-col">
         <div className="case-study-card-header-row">
           <Link href={`/case-studies/${study.slug}`} className="case-study-card-title-link">
-            <h3 className="case-study-card-title">{study.title}</h3>
+            <RevealHeading as="h3" className="case-study-card-title">{study.title}</RevealHeading>
           </Link>
           <Link
             href={`/case-studies/${study.slug}`}

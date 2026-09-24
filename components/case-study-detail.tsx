@@ -5,7 +5,7 @@ import { SiteHeader } from '@/components/site-header'
 import { Footer } from '@/components/site-footer'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
 import { Stats, CertifiedOperations, StrategicAdvantages, Voices, CTA, useScrollReveal } from '@/app/page'
-import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedHeroHeading, RevealHeading } from '@/components/reveal-heading'
 import { AnimatedCounter } from '@/components/animated-counter'
 import type { CaseStudy } from '@/lib/site-data'
 
@@ -159,9 +159,9 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32, marginBottom: 56 }}>
               <div data-reveal style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, padding: '36px 32px' }}>
                 <div className="eyebrow orange" style={{ marginBottom: 16 }}>THE CHALLENGE</div>
-                <h3 style={{ fontSize: 'clamp(22px, 2.5vw, 30px)', fontWeight: 500, color: '#ffffff', marginBottom: 16, letterSpacing: '-0.5px' }}>
+                <RevealHeading as="h3" style={{ fontSize: 'clamp(22px, 2.5vw, 30px)', fontWeight: 500, color: '#ffffff', marginBottom: 16, letterSpacing: '-0.5px' }}>
                   Disconnected systems and untapped potential.
-                </h3>
+                </RevealHeading>
                 <p style={{ color: '#a0acbe', fontSize: 16, lineHeight: 1.65, margin: 0 }}>
                   {detail.challenge}
                 </p>
@@ -169,9 +169,9 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
 
               <div data-reveal style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, padding: '36px 32px' }}>
                 <div className="eyebrow orange" style={{ marginBottom: 16 }}>OUR APPROACH</div>
-                <h3 style={{ fontSize: 'clamp(22px, 2.5vw, 30px)', fontWeight: 500, color: '#ffffff', marginBottom: 16, letterSpacing: '-0.5px' }}>
+                <RevealHeading as="h3" style={{ fontSize: 'clamp(22px, 2.5vw, 30px)', fontWeight: 500, color: '#ffffff', marginBottom: 16, letterSpacing: '-0.5px' }}>
                   Deterministic architecture and full-funnel engineering.
-                </h3>
+                </RevealHeading>
                 <p style={{ color: '#a0acbe', fontSize: 16, lineHeight: 1.65, margin: 0 }}>
                   {detail.approach}
                 </p>
@@ -181,9 +181,9 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
             {/* Measured Impact Matrix */}
             <div data-reveal style={{ background: 'radial-gradient(circle at 50% 50%, rgba(255,90,31,0.08) 0%, rgba(12,14,19,0.95) 100%)', border: '1px solid rgba(255,90,31,0.25)', borderRadius: 24, padding: '40px 32px' }}>
               <div className="eyebrow orange" style={{ marginBottom: 12 }}>DELIVERED OUTCOMES</div>
-              <h3 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 500, color: '#ffffff', marginBottom: 28, letterSpacing: '-1px' }}>
+              <RevealHeading as="h3" style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 500, color: '#ffffff', marginBottom: 28, letterSpacing: '-1px' }}>
                 Measurable commercial impact across every dimension.
-              </h3>
+              </RevealHeading>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 24 }}>
                 <div style={{ padding: '20px 24px', background: 'rgba(255,255,255,0.03)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)' }}>
                   <span style={{ fontSize: 12, color: '#8c97a8', textTransform: 'uppercase', letterSpacing: 1, display: 'block', marginBottom: 6 }}>{study.roiLabel}</span>

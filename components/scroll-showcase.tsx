@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { ScrollDataScene } from './three-scenes'
 import { AnimatedCounter } from '@/components/animated-counter'
+import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
 
 const stages = [
   {
@@ -83,10 +84,10 @@ export function ScrollShowcase() {
       <div className="container scroll-showcase-sticky-wrap">
         <div className="scroll-showcase-header">
           <div className="eyebrow orange">SCROLL-DRIVEN TRANSFORMATION ENGINE</div>
-          <h2>
+          <AnimatedHeroHeading as="h2">
             From Legacy Architecture to<br />
             <span>Autonomous Revenue Velocity</span>
-          </h2>
+          </AnimatedHeroHeading>
           <p>
             Experience the compounding phases of our commercial technology operating system.
           </p>
@@ -121,7 +122,7 @@ export function ScrollShowcase() {
                 <span className="stage-subtitle">{current.subtitle}</span>
               </div>
 
-              <h3>{current.title}</h3>
+              <RevealHeading as="h3">{current.title}</RevealHeading>
               <p>{current.description}</p>
 
               <div className="stage-metrics-grid">

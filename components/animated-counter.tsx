@@ -123,7 +123,11 @@ export function AnimatedCounter({
           }
         })
       },
-      { threshold: 0.01, rootMargin: '60px 0px 40px 0px' }
+      {
+        root: null,
+        threshold: 0.1,
+        rootMargin: '0px 0px -30px 0px',
+      }
     )
 
     observer.observe(node)

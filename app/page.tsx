@@ -5,7 +5,7 @@ import { SiteHeader } from '@/components/site-header'
 import { CaseStudiesSection } from '@/components/case-studies-section'
 import { CapabilityAccordion } from '@/components/capability-accordion'
 import { StrategicAdvantages } from '@/components/strategic-advantages'
-import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedHeroHeading, RevealHeading } from '@/components/reveal-heading'
 import { AnimatedCounter } from '@/components/animated-counter'
 
 const services = [
@@ -86,6 +86,8 @@ export function useScrollReveal() {
       return
     }
 
+    const elements = document.querySelectorAll<HTMLElement>('[data-reveal], .scroll-mask-reveal, .scroll-mask-reveal-rtl, .reveal-text')
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -98,12 +100,11 @@ export function useScrollReveal() {
       },
       {
         root: null,
-        rootMargin: '0px 0px -5% 0px',
-        threshold: 0.15,
+        rootMargin: '0px 0px -30px 0px',
+        threshold: 0.1,
       }
     )
 
-    const elements = document.querySelectorAll<HTMLElement>('[data-reveal], .scroll-mask-reveal, .scroll-mask-reveal-rtl, .reveal-text')
     elements.forEach((el) => {
       if (el.classList.contains('is-revealed')) return
       observer.observe(el)
@@ -334,7 +335,7 @@ export function CertifiedOperations() {
     <section className="certified" id="technology-capabilities" aria-labelledby="certified-title">
       <div className="container">
         <div className="technology-header-block" data-reveal>
-          <h3 className="tech-eyebrow-text">When growth requires more than marketing</h3>
+          <RevealHeading as="h3" className="tech-eyebrow-text">When growth requires more than marketing</RevealHeading>
           <AnimatedHeroHeading as="h2" className="tech-main-title">
             We deliver the technology too.
           </AnimatedHeroHeading>
@@ -415,17 +416,17 @@ export function Solutions() {
         <div className="solution-grid">
           <article data-reveal>
             <span>01</span>
-            <h3>Martech &amp; Digital<br />Transformation</h3>
+            <RevealHeading as="h3">Martech &amp; Digital<br />Transformation</RevealHeading>
             {['Martech stack audit & architecture', 'Marketing automation setup', 'CRM integration & data flow', 'AI-powered workflow automation', 'Analytics & attribution infrastructure'].map(x => <p key={x}>✓ &nbsp; {x}</p>)}
           </article>
           <article data-reveal data-reveal-delay="2">
             <span>02</span>
-            <h3>Growth &amp; Performance<br />Marketing</h3>
+            <RevealHeading as="h3">Growth &amp; Performance<br />Marketing</RevealHeading>
             {['B2B demand generation', 'Paid media — Google, Meta, LinkedIn', 'SEO & content strategy', 'Conversion rate optimization', 'Pipeline & revenue attribution'].map(x => <p key={x}>✓ &nbsp; {x}</p>)}
           </article>
           <article className="wide" data-reveal>
             <span>03</span>
-            <h3>Brand &amp; Creative Production</h3>
+            <RevealHeading as="h3">Brand &amp; Creative Production</RevealHeading>
             <div className="columns">
               {['Brand identity & positioning', 'Social media management', 'Video & visual storytelling', 'Campaign creative & production', 'Content marketing', 'Thought leadership content'].map(x => <p key={x}>✓ &nbsp; {x}</p>)}
             </div>
@@ -450,7 +451,7 @@ export function CTA() {
           </AnimatedHeroHeading>
           <p>Select a time that works for you and let&apos;s discuss your scaling strategy.</p>
           <div className="calendar">
-            <h3>Select a Date &amp; Time</h3>
+            <RevealHeading as="h3">Select a Date &amp; Time</RevealHeading>
             <div className="month">‹ <b>September 2026</b> ›</div>
             <div className="days">
               {['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'].map(x => <span key={x}>{x}</span>)}

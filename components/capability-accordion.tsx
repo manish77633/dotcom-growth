@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { RevealHeading } from '@/components/reveal-heading'
 
 export interface CapabilityCardItem {
   id: string
@@ -109,7 +110,7 @@ export function CapabilityAccordion({
 
               {/* Horizontal Content (Shown on expanded/active card) */}
               <div className="capability-expanded-content" aria-hidden={!isActive}>
-                <h3>{card.title}</h3>
+                <RevealHeading as="h3">{card.title}</RevealHeading>
                 <p>{card.description}</p>
               </div>
             </CardTag>

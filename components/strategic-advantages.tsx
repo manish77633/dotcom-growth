@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { AnimatedCounter } from '@/components/animated-counter'
-import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedHeroHeading, RevealHeading } from '@/components/reveal-heading'
 
 export interface AdvantageTab {
   num: string
@@ -149,21 +149,21 @@ export function StrategicAdvantages() {
 
                   {expertiseCategory === 'tech' && (
                     <div className="expertise-content">
-                      <h4>Mastery over Scale</h4>
+                      <RevealHeading as="h4">Mastery over Scale</RevealHeading>
                       <p>Our engineers build proprietary stacks designed for 99.9% uptime and millisecond response times.</p>
                     </div>
                   )}
 
                   {expertiseCategory === 'creative' && (
                     <div className="expertise-content">
-                      <h4>Storytelling that Converts</h4>
+                      <RevealHeading as="h4">Storytelling that Converts</RevealHeading>
                       <p>High-impact brand positioning and campaign creative built to command authority in crowded markets.</p>
                     </div>
                   )}
 
                   {expertiseCategory === 'performance' && (
                     <div className="expertise-content">
-                      <h4>Accountable Growth</h4>
+                      <RevealHeading as="h4">Accountable Growth</RevealHeading>
                       <p>Data-driven media allocation, predictive attribution, and conversion rate engineering mapped to revenue.</p>
                     </div>
                   )}

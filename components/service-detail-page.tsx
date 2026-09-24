@@ -5,8 +5,9 @@ import { useEffect, useRef } from 'react'
 import { SiteHeader } from '@/components/site-header'
 import { CaseStudyHeroGlobe } from '@/components/case-study-hero-globe'
 import { CaseStudiesShowcase } from '@/components/case-studies-showcase'
-import { Capabilities, Stats, CertifiedOperations, Solutions, Voices, CTA, Footer, useScrollReveal } from '@/app/page'
+import { Capabilities, Stats, CertifiedOperations, StrategicAdvantages, Solutions, Voices, CTA, Footer, useScrollReveal } from '@/app/page'
 import { AnimatedHeroHeading } from '@/components/animated-hero-heading'
+import { AnimatedCounter } from '@/components/animated-counter'
 import type { Service } from '@/lib/site-data'
 
 export function ServiceDetailPage({ service }: { service: Service }) {
@@ -64,6 +65,26 @@ export function ServiceDetailPage({ service }: { service: Service }) {
                 <Link className="orange-button" href="/#contact">TALK TO AN EXPERT</Link>
                 <Link className="outline-button" href="#service-capabilities" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}>EXPLORE CAPABILITY</Link>
               </div>
+
+              {/* Seamless Inline Metrics */}
+              <div className="case-hero-metrics-bar">
+                <div className="inline-stat-item">
+                  <strong><AnimatedCounter value="8+" /></strong>
+                  <span>Core Capabilities</span>
+                </div>
+                <div className="inline-stat-item">
+                  <strong><AnimatedCounter value="350+" /></strong>
+                  <span>Engineers & Specialists</span>
+                </div>
+                <div className="inline-stat-item">
+                  <strong><AnimatedCounter value="98.4%" /></strong>
+                  <span>Client Retention</span>
+                </div>
+                <div className="inline-stat-item">
+                  <strong><AnimatedCounter value="$420M+" /></strong>
+                  <span>Generated Value</span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -72,6 +93,7 @@ export function ServiceDetailPage({ service }: { service: Service }) {
         </div>
         <Stats />
         <CertifiedOperations />
+        <StrategicAdvantages />
         <Solutions />
         <CaseStudiesShowcase />
         <Voices />
