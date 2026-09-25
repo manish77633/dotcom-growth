@@ -109,9 +109,9 @@ export function TechnologyDetailPage({ technology }: { technology: Technology })
       <SiteHeader />
       <main className="case-studies-page-wrap" style={{ minHeight: '100vh', background: '#ffffff', color: '#111111' }}>
         {/* Full-Bleed Video Hero with Cinematic Dark Overlay */}
-        <section className="tech-hero-fullbleed">
+        <section className={`tech-hero-fullbleed case-studies-hero-immersive ${heroVideo ? 'has-service-hero-video' : ''}`}>
           {heroVideo ? (
-            <div className="tech-hero-video-bg" aria-hidden="true">
+            <div className="case-hero-video-bg tech-hero-video-bg" aria-hidden="true">
               <video
                 src={heroVideo}
                 autoPlay
@@ -119,11 +119,11 @@ export function TechnologyDetailPage({ technology }: { technology: Technology })
                 loop
                 playsInline
                 preload="metadata"
-                className="tech-hero-video-media"
+                className="case-hero-video-bg-media tech-hero-video-media"
               >
                 <source src={heroVideo} type="video/mp4" />
               </video>
-              <div className="tech-hero-video-overlay" />
+              <div className="case-hero-video-overlay tech-hero-video-overlay" />
             </div>
           ) : (
             <div className="tech-hero-globe-wrap" aria-hidden="true">
@@ -137,6 +137,22 @@ export function TechnologyDetailPage({ technology }: { technology: Technology })
               <div className="tech-hero-eyebrow-wrap">
                 <div className="eyebrow orange">TECHNOLOGY SYSTEM</div>
               </div>
+
+              {heroVideo ? (
+                <div className="case-hero-video-mobile-card" aria-hidden="true">
+                  <video
+                    src={heroVideo}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="case-hero-video-mobile-media"
+                  >
+                    <source src={heroVideo} type="video/mp4" />
+                  </video>
+                </div>
+              ) : null}
 
               <AnimatedHeroHeading as="h1" className="tech-hero-title">
                 {technology.title}<br />
